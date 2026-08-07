@@ -1,0 +1,52 @@
+name: taskflow-app
+
+services:
+  mongo:
+    image: mongo:6.0
+    ports: 
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - taskflow-network
+      
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    env_file: ./server/.env
+    volumes: 
+      - ./server:/app
+      - /app/node_modules
+    networks:
+      - taskflow-network
+    ports: 
+      - 5000:5000
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    env_file: ./client/.env
+    environment:
+      - VITE_PROXY_TARGET=http://api:5000
+    volumes: 
+      - ./client:/app
+      - /app/node_modules
+    networks:
+      - taskflow-network
+    ports:
+      - 5173:5173
+    depends_on:
+      - api
+
+volumes:
+  mongo-data:
+
+networks:
+  taskflow-network:
+    driver: bridge

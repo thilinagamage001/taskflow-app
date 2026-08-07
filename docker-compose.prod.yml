@@ -1,0 +1,62 @@
+name: taskflow-app
+
+services:
+
+  mongo:
+    image: mongo:6.0
+    restart: unless-stopped
+
+    volumes:
+      - mongo-data:/data/db
+
+    networks:
+      - taskflow-network
+
+
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.prod
+
+    restart: unless-stopped
+
+    env_file:
+      - ./server/.env
+
+    expose:
+      - "5000"
+
+    networks:
+      - taskflow-network
+
+    depends_on:
+      - mongo
+
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+
+    restart: unless-stopped
+
+    environment:
+      - API_PROXY_TARGET=http://api:5000
+
+    ports:
+      - "80:80"
+
+    networks:
+      - taskflow-network
+
+    depends_on:
+      - api
+
+
+volumes:
+  mongo-data:
+
+
+networks:
+  taskflow-network:
+    driver: bridge
