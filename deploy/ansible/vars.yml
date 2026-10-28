@@ -1,0 +1,19 @@
+---
+# App deployment settings
+app_dir: "/opt/taskflow"
+app_user: "azureuser"
+
+# Swap memory settings (crucial for Azure B1s 1GB RAM)
+swap_size_mb: 2048
+swappiness: 10
+
+# Application Environment Variables
+node_env: "production"
+server_port: 5000
+mongodb_uri: "mongodb://mongo:27017/taskflow"
+jwt_secret: "prod_taskflow_jwt_secret_key_change_me_in_production_2026"
+jwt_expire: "7d"
+upload_dir: "uploads"
+
+# Seed initial demo data on first deploy (Email: demo@taskflow.com, Pass: Demo1234)
+seed_database: true

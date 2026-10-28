@@ -1,0 +1,91 @@
+name: TaskFlow CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - 'deploy/README.md'
+  workflow_dispatch:
+
+jobs:
+  lint-and-build:
+    name: Test & Build Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: |
+            client/package-lock.json
+            server/package-lock.json
+
+      - name: Install & Verify Backend Dependencies
+        run: |
+          cd server
+          npm ci
+
+      - name: Install & Test Frontend Build
+        run: |
+          cd client
+          npm ci
+          npm run build
+
+  deploy:
+    name: Deploy to Azure VM
+    needs: lint-and-build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Directory & Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.VM_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Install Ansible & Prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible rsync
+          ansible-galaxy collection install ansible.posix
+
+      - name: Configure Ansible Inventory
+        run: |
+          cat <<EOF > deploy/ansible/inventory.ini
+          [taskflow_servers]
+          ${{ secrets.VM_HOST }} ansible_user=${{ secrets.VM_USER || 'azureuser' }} ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+          EOF
+
+      - name: Run Ansible Deployment Playbook
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
+        run: |
+          cd deploy/ansible
+          ansible-playbook playbook.yml \
+            --extra-vars "jwt_secret=${{ secrets.JWT_SECRET || 'prod_jwt_secret_key_change_me_in_production_2026' }}"
+
+      - name: Application Health Verification
+        run: |
+          echo "Verifying TaskFlow is running..."
+          for i in {1..12}; do
+            if curl -s -f "http://${{ secrets.VM_HOST }}/api/health"; then
+              echo "TaskFlow API is healthy and reachable!"
+              exit 0
+            fi
+            echo "Waiting for service to be available... ($i/12)"
+            sleep 5
+          done
+          echo "Health check failed."
+          exit 1

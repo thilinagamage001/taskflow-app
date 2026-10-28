@@ -72,12 +72,6 @@ export default function LoginPage() {
             Sign up
           </Link>
         </p>
-
-        <div className="pt-2 border-t border-dark-200 dark:border-dark-700">
-          <p className="text-xs text-center text-dark-400">
-            Demo: demo@taskflow.com / Demo1234
-          </p>
-        </div>
       </div>
     </AuthLayout>
   );
