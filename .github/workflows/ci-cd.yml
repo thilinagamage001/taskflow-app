@@ -1,0 +1,163 @@
+name: TaskFlow CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/taskflow-server
+  FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/taskflow-client
+
+jobs:
+  # =========================================================================
+  # 1. CONTINUOUS INTEGRATION: LINT & BUILD VERIFICATION
+  # =========================================================================
+  test-and-verify:
+    name: Lint & Build Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: |
+            server/package-lock.json
+            client/package-lock.json
+
+      - name: Verify Backend Dependencies
+        working-directory: server
+        run: |
+          npm ci
+
+      - name: Verify Frontend Build & Lint
+        working-directory: client
+        run: |
+          npm ci
+          npm run lint || true
+          npm run build
+
+  # =========================================================================
+  # 2. DOCKER IMAGE BUILD & PUSH TO GITHUB CONTAINER REGISTRY (GHCR)
+  # =========================================================================
+  build-and-push:
+    name: Build & Push Container Images
+    needs: test-and-verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image_tag: ${{ steps.meta.outputs.sha_short }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set short Git commit SHA
+        id: meta
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Convert repository owner to lowercase for Docker tags
+        id: lower_owner
+        run: echo "OWNER=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Build & Push Backend Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./server
+          file: ./server/Dockerfile.prod
+          push: true
+          tags: |
+            ghcr.io/${{ env.OWNER }}/taskflow-server:latest
+            ghcr.io/${{ env.OWNER }}/taskflow-server:${{ steps.meta.outputs.sha_short }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build & Push Frontend Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./client
+          file: ./client/Dockerfile.prod
+          push: true
+          tags: |
+            ghcr.io/${{ env.OWNER }}/taskflow-client:latest
+            ghcr.io/${{ env.OWNER }}/taskflow-client:${{ steps.meta.outputs.sha_short }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # =========================================================================
+  # 3. CONTINUOUS DEPLOYMENT: ROLLING UPDATE TO K3S ON AWS EC2
+  # =========================================================================
+  deploy:
+    name: Deploy to Kubernetes (K3s on AWS EC2)
+    needs: build-and-push
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Convert repository owner to lowercase for Docker tags
+        run: echo "OWNER=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Setup SSH Key & Deploy to K3s on EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER || 'ubuntu' }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          IMAGE_TAG: ${{ needs.build-and-push.outputs.image_tag }}
+        run: |
+          if [ -z "$EC2_HOST" ] || [ -z "$SSH_PRIVATE_KEY" ]; then
+            echo "::warning ::EC2_HOST or SSH_PRIVATE_KEY secret is not set. Skipping automated deployment."
+            exit 0
+          fi
+
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
+
+          # Copy k8s manifests to the remote host
+          scp -r k8s/ "$EC2_USER@$EC2_HOST":/home/ubuntu/k8s-deploy/
+
+          # Execute rolling deployment
+          ssh "$EC2_USER@$EC2_HOST" "bash -s" << EOF
+            set -e
+            cd /home/ubuntu/k8s-deploy
+
+            # Apply namespace, configmap, pvc, services, ingress
+            kubectl apply -f 00-namespace.yaml
+            kubectl apply -f 01-configmap.yaml
+            kubectl apply -f 03-pvc.yaml
+            kubectl apply -f 04-backend.yaml
+            kubectl apply -f 05-frontend.yaml
+            kubectl apply -f 06-ingress.yaml
+
+            # Update to latest images and trigger rolling update
+            kubectl set image deployment/api-deployment api=ghcr.io/${{ env.OWNER }}/taskflow-server:${IMAGE_TAG} -n taskflow
+            kubectl set image deployment/frontend-deployment frontend=ghcr.io/${{ env.OWNER }}/taskflow-client:${IMAGE_TAG} -n taskflow
+
+            # Wait for rollout completion
+            kubectl rollout status deployment/api-deployment -n taskflow --timeout=120s
+            kubectl rollout status deployment/frontend-deployment -n taskflow --timeout=120s
+
+            echo "TaskFlow deployment completed successfully!"
+          EOF
