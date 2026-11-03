@@ -17,9 +17,9 @@ variable "environment" {
 }
 
 variable "instance_type" {
-  description = "EC2 Instance type (Free Tier: t2.micro or t3.micro depending on region)"
+  description = "EC2 Instance type (Free Tier eligible: t3.micro)"
   type        = string
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 variable "key_pair_name" {

@@ -23,8 +23,8 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/your-github-username/taskflow-client:latest
-          imagePullPolicy: Always
+          image: ghcr.io/thilinagamage001/taskflow-client:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
               name: http
