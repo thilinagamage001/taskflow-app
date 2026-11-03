@@ -135,8 +135,11 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
+          # Ensure destination directory exists on the remote host
+          ssh "$EC2_USER@$EC2_HOST" "mkdir -p /home/ubuntu/k8s-deploy"
+
           # Copy k8s manifests to the remote host
-          scp -r k8s/ "$EC2_USER@$EC2_HOST":/home/ubuntu/k8s-deploy/
+          scp -r k8s/* "$EC2_USER@$EC2_HOST":/home/ubuntu/k8s-deploy/
 
           # Execute rolling deployment
           ssh "$EC2_USER@$EC2_HOST" "bash -s" << EOF
