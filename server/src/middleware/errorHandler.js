@@ -1,4 +1,5 @@
 import logger from '../utils/logger.js';
+import ApiError from '../utils/ApiError.js';
 
 const errorHandler = (err, req, res, next) => {
   let error = { ...err };
