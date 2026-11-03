@@ -2,7 +2,7 @@ name: TaskFlow CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
@@ -50,7 +50,7 @@ jobs:
   build-and-push:
     name: Build & Push Container Images
     needs: test-and-verify
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -109,7 +109,7 @@ jobs:
   deploy:
     name: Deploy to Kubernetes (K3s on AWS EC2)
     needs: build-and-push
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -135,18 +135,32 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
+          # Ensure destination directory exists on the remote host
+          ssh "$EC2_USER@$EC2_HOST" "mkdir -p /home/ubuntu/k8s-deploy"
+
           # Copy k8s manifests to the remote host
-          scp -r k8s/ "$EC2_USER@$EC2_HOST":/home/ubuntu/k8s-deploy/
+          scp -r k8s/* "$EC2_USER@$EC2_HOST":/home/ubuntu/k8s-deploy/
 
           # Execute rolling deployment
           ssh "$EC2_USER@$EC2_HOST" "bash -s" << EOF
             set -e
             cd /home/ubuntu/k8s-deploy
 
-            # Apply namespace, configmap, pvc, services, ingress
+            # Apply namespace and core configs
             kubectl apply -f 00-namespace.yaml
             kubectl apply -f 01-configmap.yaml
             kubectl apply -f 03-pvc.yaml
+
+            # Apply secret if available
+            if [ -f 02-secret.yaml ]; then
+              kubectl apply -f 02-secret.yaml
+            elif [ -n "${{ secrets.MONGODB_URI }}" ]; then
+              kubectl create secret generic taskflow-secrets \
+                --from-literal=MONGODB_URI='${{ secrets.MONGODB_URI }}' \
+                --from-literal=JWT_SECRET='${{ secrets.JWT_SECRET }}' \
+                -n taskflow --dry-run=client -o yaml | kubectl apply -f -
+            fi
+
             kubectl apply -f 04-backend.yaml
             kubectl apply -f 05-frontend.yaml
             kubectl apply -f 06-ingress.yaml
