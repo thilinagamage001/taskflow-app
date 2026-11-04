@@ -28,13 +28,13 @@ variable "key_pair_name" {
 }
 
 variable "private_key_file" {
-  description = "Local path to the SSH private key (.pem) used by Ansible"
+  description = "Local path to the SSH private key (.pem) used for SSH access"
   type        = string
   default     = "~/.ssh/id_rsa"
 }
 
 variable "ssh_allowed_cidr" {
-  description = "IP CIDR allowed to connect via SSH and K8s API (set to your IP, e.g. 203.0.113.50/32)"
+  description = "IP CIDR allowed to connect via SSH (set to your IP, e.g. 203.0.113.50/32)"
   type        = string
   default     = "0.0.0.0/0"
 }

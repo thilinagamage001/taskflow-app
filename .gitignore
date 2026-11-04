@@ -24,10 +24,7 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 
-# Ansible & K8s credentials
-ansible/inventory.ini
-k8s/02-secret.yaml
-k3s.yaml
+# Sensitive Keys
 *.pem
 *.key
 

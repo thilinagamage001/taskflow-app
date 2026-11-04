@@ -1,40 +1,38 @@
-# TaskFlow — AWS Free Tier DevOps & Deployment Guide
+# TaskFlow — AWS Free Tier DevOps & Deployment Guide (Docker, Terraform & CI/CD)
 
-This project includes a complete, enterprise-grade Infrastructure-as-Code (IaC), Configuration Management, Kubernetes orchestration, and automated CI/CD pipeline engineered specifically to operate **100% within the AWS Free Tier**.
+This project includes a streamlined, production-grade Infrastructure-as-Code (Terraform), Containerization (Docker & Docker Compose), and automated CI/CD pipeline (GitHub Actions) engineered specifically to operate **100% within the AWS Free Tier**.
 
 ---
 
 ## Architecture Overview
 
 ```
-                      +------------------------------------------+
-                      |         GitHub Actions (CI/CD)           |
-                      |   1. Lint & Build Frontend / Backend     |
-                      |   2. Push Docker images to GHCR          |
-                      |   3. Deploy rolling update via SSH       |
-                      +--------------------+---------------------+
-                                           |
-+--------------------------+               |
-|      Terraform (IaC)     |               |
-|  1. VPC & Public Subnet  |               |
-|  2. Security Groups      |               |
-|  3. EC2 t2.micro / gp3   |               |
-|  4. Elastic IP (Static)  +---------------+
-+------------+-------------+               |
-             |                             |
-             v                             v
-+--------------------------+     +-------------------------------+
-|     Ansible (Config)     |     |       Kubernetes (K3s)        |
-|  1. 2GB Swap Memory      |     |  - Ingress: Traefik (HTTP :80)|
-|  2. Kernel IP Forwarding +---->|  - Frontend Pod (Node Static) |
-|  3. Install K3s & Traefik|     |  - Backend Pod (Express API)  |
-|  4. Kubeconfig setup     |     |  - PVC: local-path (/uploads) |
-+--------------------------+     +---------------+---------------+
-                                                 |
-                                                 v
-                                 +-------------------------------+
-                                 |  MongoDB Atlas (M0 - Free)    |
-                                 +-------------------------------+
+                      ┌──────────────────────────────────────────┐
+                      │         GitHub Actions (CI/CD)           │
+                      │   1. Lint & Build Frontend / Backend     │
+                      │   2. Build & Push Docker images to GHCR  │
+                      │   3. Deploy via SSH + Docker Compose     │
+                      └────────────────────┬─────────────────────┘
+                                           │
+┌──────────────────────────┐               │
+│     Terraform (IaC)      │               │
+│  1. VPC & Public Subnet  │               │
+│  2. Security Groups (80) │               │
+│  3. EC2 t3.micro (Free)  ├───────────────┤
+│  4. Cloud-Init (Docker)  │               │
+│  5. Elastic IP (Static)  │               │
+└──────────────────────────┘               ▼
+                               ┌─────────────────────────────────┐
+                               │       AWS EC2 (t3.micro)        │
+                               │  - 2 GB Swap Guard (No OOM)     │
+                               │  - Docker Engine & Compose      │
+                               │                                 │
+                               │  [docker-compose.prod.yml]      │
+                               │  ├── Frontend (:80 proxy)       │
+                               │  ├── Backend API (:5000)        │
+                               │  └── MongoDB (or Atlas Cloud)   │
+                               │  └── Volume: uploads-data       │
+                               └─────────────────────────────────┘
 ```
 
 ---
@@ -43,42 +41,23 @@ This project includes a complete, enterprise-grade Infrastructure-as-Code (IaC),
 
 ```
 taskflow/
-├── terraform/                   # Infrastructure as Code
-│   ├── main.tf                 # VPC, Subnet, Security Group, EC2, Elastic IP
-│   ├── variables.tf            # Input variables (region, instance type, keys)
-│   ├── outputs.tf              # Public IP, SSH command, application URL
-│   ├── terraform.tfvars.example# Example variable values
-│   └── templates/
-│       └── inventory.ini.tftpl # Auto-generates Ansible inventory from Terraform
-├── ansible/                     # Configuration Management
-│   ├── ansible.cfg             # Ansible defaults (no host key checking)
-│   ├── inventory.ini.example   # Inventory template
-│   └── playbook.yml            # Configures 2GB swap, installs K3s & Traefik
-├── k8s/                         # Kubernetes Manifests
-│   ├── 00-namespace.yaml       # Creates 'taskflow' namespace
-│   ├── 01-configmap.yaml       # Environment configuration
-│   ├── 02-secret.example.yaml  # MongoDB URI & JWT secret template
-│   ├── 03-pvc.yaml             # Persistent volume claim for avatar uploads
-│   ├── 04-backend.yaml         # API Deployment + ClusterIP Service
-│   ├── 05-frontend.yaml        # Frontend Deployment + ClusterIP Service
-│   ├── 06-ingress.yaml         # Traefik Ingress routing (/api, /uploads, /)
-│   └── kustomization.yaml      # Kustomize manifest for easy apply
-└── .github/workflows/
-    └── ci-cd.yml               # Automated CI, Docker build & push, and CD
+├── docker-compose.prod.yml       # Production multi-container orchestration
+├── docker-compose.dev.yml        # Local development orchestration
+├── terraform/                    # Infrastructure as Code
+│   ├── main.tf                  # VPC, Subnet, Security Group, EC2 + Cloud-Init Docker, Elastic IP
+│   ├── variables.tf             # Input variables (region, instance type, keys)
+│   ├── outputs.tf               # Public IP, SSH command, application URL
+│   ├── terraform.tfvars.example # Example variable values
+│   └── terraform.tfvars         # Your local configuration (gitignored)
+├── .github/workflows/
+│   └── ci-cd.yml                # CI test, GHCR build/push, and EC2 Docker Compose deployment
+├── server/
+│   ├── Dockerfile.prod          # Multi-stage Node.js backend container
+│   └── ...
+└── client/
+    ├── Dockerfile.prod          # Multi-stage React + Node static server container
+    └── ...
 ```
-
----
-
-## Prerequisites
-
-1. **AWS Account**: An active AWS Free Tier account.
-2. **Tools Installed Locally**:
-   - [AWS CLI](https://aws.amazon.com/cli/) (`aws configure`)
-   - [Terraform](https://developer.hashicorp.com/terraform/install) (>= 1.5)
-   - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
-   - [kubectl](https://kubernetes.io/docs/tasks/tools/)
-3. **MongoDB Atlas Account**: Free [M0 Cluster](https://www.mongodb.com/atlas) connection URI.
-4. **AWS Key Pair**: An existing `.pem` key pair created in the AWS Console (e.g., `~/.ssh/my-aws-key.pem`).
 
 ---
 
@@ -89,139 +68,68 @@ taskflow/
    cd terraform
    ```
 
-2. Create your variable configuration:
-   ```bash
-   cp terraform.tfvars.example terraform.tfvars
-   ```
-   Edit `terraform.tfvars`:
+2. Configure your variables in `terraform.tfvars`:
    ```hcl
    aws_region       = "us-east-1"
    key_pair_name    = "my-aws-key"
    private_key_file = "~/.ssh/my-aws-key.pem"
-   instance_type    = "t2.micro"  # Free Tier eligible
+   instance_type    = "t3.micro"  # Free Tier eligible in us-east-1
    ```
 
 3. Initialize and apply:
    ```bash
    terraform init
-   terraform plan
    terraform apply -auto-approve
    ```
 
-4. Terraform will output:
-   - `ec2_public_ip`: Your assigned Elastic IP
-   - `ssh_connection_string`: SSH command
-   - **It also automatically generates `ansible/inventory.ini`** with your EC2 IP and key path!
+### What Terraform does automatically:
+- Provisions the VPC, Subnet, and Security Group (ports 22, 80, 443).
+- Launches an **EC2 `t3.micro`** instance.
+- Automatically executes a **cloud-init script**:
+  - Configures **2 GB of Swap space** (keeps the 1 GB RAM instance stable).
+  - Installs **Docker** and **Docker Compose plugin**.
+  - Adds the `ubuntu` user to the `docker` group.
+  - Prepares `/home/ubuntu/taskflow-app`.
+- Attaches an **Elastic IP** and outputs your connection command and application URL.
 
 ---
 
-## Step 2: Configure EC2 & Install K3s with Ansible
+## Step 2: Configure GitHub Repository Secrets
 
-1. Move to the `ansible/` directory:
-   ```bash
-   cd ../ansible
-   ```
+In your GitHub repository, navigate to **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
 
-2. Test connectivity to the new EC2 instance:
-   ```bash
-   ansible -i inventory.ini k8s_nodes -m ping
-   ```
-   *(Wait ~60 seconds after Terraform finishes for SSH to accept connections)*
-
-3. Run the playbook:
-   ```bash
-   ansible-playbook -i inventory.ini playbook.yml
-   ```
-
-### What this playbook does:
-- Allocates and enables a **2 GB Swap file** (critical to prevent out-of-memory errors on 1 GB RAM `t2.micro`).
-- Enables `net.ipv4.ip_forward=1` for Kubernetes pod networking.
-- Installs **K3s** (lightweight certified Kubernetes with built-in Traefik ingress controller).
-- Configures `kubectl` permissions for the `ubuntu` user.
-- Downloads `k3s.yaml` to your local project root so you can run `kubectl --kubeconfig k3s.yaml get nodes` from your local machine.
+| Secret Name | Value | Description |
+| :--- | :--- | :--- |
+| `EC2_HOST` | Output from `terraform output ec2_public_ip` (e.g. `3.211.185.56`) | Elastic IP of the EC2 instance |
+| `EC2_USER` | `ubuntu` | Default SSH user |
+| `SSH_PRIVATE_KEY` | Entire content of `~/.ssh/my-aws-key.pem` | SSH private key for authentication |
+| `MONGODB_URI` *(Optional)* | Your MongoDB Atlas connection URI | Cloud MongoDB (or uses container MongoDB) |
+| `JWT_SECRET` *(Optional)* | Random 32+ character string | Token encryption key |
 
 ---
 
-## Step 3: Configure Kubernetes Secrets
+## Step 3: Deploy via CI/CD
 
-1. Move to the `k8s/` directory:
-   ```bash
-   cd ../k8s
-   ```
+Push your code to trigger the automated deployment:
 
-2. Create `02-secret.yaml` from the example:
-   ```bash
-   cp 02-secret.example.yaml 02-secret.yaml
-   ```
+```bash
+git push origin develop
+# (or git push origin main)
+```
 
-3. Edit `02-secret.yaml` with your actual MongoDB Atlas connection string and secret key:
-   ```yaml
-   apiVersion: v1
-   kind: Secret
-   metadata:
-     name: taskflow-secrets
-     namespace: taskflow
-   type: Opaque
-   stringData:
-     MONGODB_URI: "mongodb+srv://<user>:<password>@cluster0.mongodb.net/taskflow?retryWrites=true&w=majority"
-     JWT_SECRET: "your_random_production_secret_at_least_32_characters"
-   ```
+GitHub Actions will automatically:
+1. Verify backend dependencies and compile the React frontend bundle.
+2. Build multi-stage production Docker images and push them to **GitHub Container Registry (`ghcr.io`)**.
+3. Connect to your EC2 instance via SSH.
+4. Pull the latest images and start your containers with `docker compose up -d`.
+5. Access your live application at **`http://<EC2_PUBLIC_IP>`**.
 
 ---
 
-## Step 4: Deploy Kubernetes Workloads
+## Step 4: Tear Down (Clean up AWS Resources)
 
-1. SSH into the instance or use your local `kubectl`:
-   ```bash
-   # From your local machine (using the fetched kubeconfig):
-   export KUBECONFIG=$(pwd)/../k3s.yaml
-   ```
+To terminate the EC2 instance, release the Elastic IP, and delete all AWS resources:
 
-2. Apply all Kubernetes manifests:
-   ```bash
-   kubectl apply -f 00-namespace.yaml
-   kubectl apply -f 01-configmap.yaml
-   kubectl apply -f 02-secret.yaml
-   kubectl apply -f 03-pvc.yaml
-   kubectl apply -f 04-backend.yaml
-   kubectl apply -f 05-frontend.yaml
-   kubectl apply -f 06-ingress.yaml
-   ```
-
-3. Verify rollout:
-   ```bash
-   kubectl get pods -n taskflow
-   kubectl get svc -n taskflow
-   kubectl get ingress -n taskflow
-   ```
-
-4. Open `http://<EC2_PUBLIC_IP>` in your web browser. The app is live!
-
----
-
-## Step 5: Automate CI/CD with GitHub Actions
-
-The workflow in [`.github/workflows/ci-cd.yml`](file:///home/thilina/OpenCode/taskflow-app/.github/workflows/ci-cd.yml) automatically:
-1. Verifies code dependencies and builds the React bundle.
-2. Builds multi-stage production Docker images and publishes them to **GitHub Container Registry (`ghcr.io`)**.
-3. Connects via SSH to your AWS EC2 instance and triggers a zero-downtime rolling update.
-
-### Setting up GitHub Repository Secrets:
-Go to your GitHub Repository → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
-
-| Secret Name | Value |
-| :--- | :--- |
-| `EC2_HOST` | The Elastic IP of your EC2 instance (from `terraform output ec2_public_ip`) |
-| `EC2_USER` | `ubuntu` |
-| `SSH_PRIVATE_KEY` | Entire content of your `.pem` private key file (`cat ~/.ssh/my-aws-key.pem`) |
-
-Whenever you push to the `main` branch, GitHub Actions will automatically test, build, push, and deploy your changes.
-
----
-
-## Tear Down (Clean up AWS Resources)
-
-To avoid any unexpected charges when you are done:
 ```bash
 cd terraform
 terraform destroy -auto-approve
