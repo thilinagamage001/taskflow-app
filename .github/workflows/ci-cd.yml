@@ -1,4 +1,4 @@
-name: TaskFlow CI/CD Pipeline
+name: TaskFlow CI/CD Pipeline (Docker & AWS)
 
 on:
   push:
@@ -9,8 +9,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/taskflow-server
-  FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/taskflow-client
 
 jobs:
   # =========================================================================
@@ -48,7 +46,7 @@ jobs:
   # 2. DOCKER IMAGE BUILD & PUSH TO GITHUB CONTAINER REGISTRY (GHCR)
   # =========================================================================
   build-and-push:
-    name: Build & Push Container Images
+    name: Build & Push Docker Images
     needs: test-and-verify
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
@@ -57,6 +55,7 @@ jobs:
       packages: write
     outputs:
       image_tag: ${{ steps.meta.outputs.sha_short }}
+      owner: ${{ steps.lower_owner.outputs.owner }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -64,6 +63,13 @@ jobs:
       - name: Set short Git commit SHA
         id: meta
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Convert repository owner to lowercase for Docker tags
+        id: lower_owner
+        run: |
+          OWNER=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')
+          echo "owner=$OWNER" >> $GITHUB_OUTPUT
+          echo "OWNER=$OWNER" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -75,11 +81,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Convert repository owner to lowercase for Docker tags
-        id: lower_owner
-        run: echo "OWNER=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-
-      - name: Build & Push Backend Image
+      - name: Build & Push Backend Production Image
         uses: docker/build-push-action@v6
         with:
           context: ./server
@@ -91,7 +93,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build & Push Frontend Image
+      - name: Build & Push Frontend Production Image
         uses: docker/build-push-action@v6
         with:
           context: ./client
@@ -104,10 +106,10 @@ jobs:
           cache-to: type=gha,mode=max
 
   # =========================================================================
-  # 3. CONTINUOUS DEPLOYMENT: ROLLING UPDATE TO K3S ON AWS EC2
+  # 3. CONTINUOUS DEPLOYMENT: DOCKER COMPOSE ON AWS EC2
   # =========================================================================
   deploy:
-    name: Deploy to Kubernetes (K3s on AWS EC2)
+    name: Deploy with Docker Compose to AWS EC2
     needs: build-and-push
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
@@ -115,15 +117,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Convert repository owner to lowercase for Docker tags
-        run: echo "OWNER=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-
-      - name: Setup SSH Key & Deploy to K3s on EC2
+      - name: Setup SSH Key & Deploy to EC2
         env:
           EC2_HOST: ${{ secrets.EC2_HOST }}
           EC2_USER: ${{ secrets.EC2_USER || 'ubuntu' }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           IMAGE_TAG: ${{ needs.build-and-push.outputs.image_tag }}
+          OWNER: ${{ needs.build-and-push.outputs.owner }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.actor }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
           if [ -z "$EC2_HOST" ] || [ -z "$SSH_PRIVATE_KEY" ]; then
             echo "::warning ::EC2_HOST or SSH_PRIVATE_KEY secret is not set. Skipping automated deployment."
@@ -135,43 +139,46 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
-          # Ensure destination directory exists on the remote host
-          ssh "$EC2_USER@$EC2_HOST" "mkdir -p /home/ubuntu/k8s-deploy"
+          # Ensure deployment directory exists on remote host
+          ssh "$EC2_USER@$EC2_HOST" "mkdir -p /home/ubuntu/taskflow-app"
 
-          # Copy k8s manifests to the remote host
-          scp -r k8s/* "$EC2_USER@$EC2_HOST":/home/ubuntu/k8s-deploy/
+          # Copy docker-compose.prod.yml to EC2
+          scp docker-compose.prod.yml "$EC2_USER@$EC2_HOST":/home/ubuntu/taskflow-app/docker-compose.prod.yml
 
-          # Execute rolling deployment
+          # Execute deployment via Docker Compose
           ssh "$EC2_USER@$EC2_HOST" "bash -s" << EOF
             set -e
-            cd /home/ubuntu/k8s-deploy
+            cd /home/ubuntu/taskflow-app
 
-            # Apply namespace and core configs
-            kubectl apply -f 00-namespace.yaml
-            kubectl apply -f 01-configmap.yaml
-            kubectl apply -f 03-pvc.yaml
-
-            # Apply secret if available
-            if [ -f 02-secret.yaml ]; then
-              kubectl apply -f 02-secret.yaml
-            elif [ -n "${{ secrets.MONGODB_URI }}" ]; then
-              kubectl create secret generic taskflow-secrets \
-                --from-literal=MONGODB_URI='${{ secrets.MONGODB_URI }}' \
-                --from-literal=JWT_SECRET='${{ secrets.JWT_SECRET }}' \
-                -n taskflow --dry-run=client -o yaml | kubectl apply -f -
+            # Create server/.env with production settings if not existing
+            mkdir -p server client
+            if [ ! -f server/.env ]; then
+              cat << 'ENVFILE' > server/.env
+          NODE_ENV=production
+          PORT=5000
+          MONGODB_URI=${MONGODB_URI:-mongodb://mongo:27017/taskflow}
+          JWT_SECRET=${JWT_SECRET:-taskflow_super_secret_jwt_key_2024}
+          JWT_EXPIRE=7d
+          UPLOAD_DIR=uploads
+          ENVFILE
             fi
 
-            kubectl apply -f 04-backend.yaml
-            kubectl apply -f 05-frontend.yaml
-            kubectl apply -f 06-ingress.yaml
+            # Create client/.env
+            echo "VITE_API_URL=/api" > client/.env
 
-            # Update to latest images and trigger rolling update
-            kubectl set image deployment/api-deployment api=ghcr.io/${{ env.OWNER }}/taskflow-server:${IMAGE_TAG} -n taskflow
-            kubectl set image deployment/frontend-deployment frontend=ghcr.io/${{ env.OWNER }}/taskflow-client:${IMAGE_TAG} -n taskflow
+            # Authenticate with GHCR so private or public images can always be pulled
+            echo "${GHCR_TOKEN}" | docker login ghcr.io -u "${ACTOR}" --password-stdin
 
-            # Wait for rollout completion
-            kubectl rollout status deployment/api-deployment -n taskflow --timeout=120s
-            kubectl rollout status deployment/frontend-deployment -n taskflow --timeout=120s
+            # Export production image tags
+            export BACKEND_IMAGE="ghcr.io/${OWNER}/taskflow-server:${IMAGE_TAG}"
+            export FRONTEND_IMAGE="ghcr.io/${OWNER}/taskflow-client:${IMAGE_TAG}"
 
-            echo "TaskFlow deployment completed successfully!"
+            # Pull latest images and restart containers
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
+
+            # Clean up old dangling images
+            docker image prune -f
+
+            echo "TaskFlow deployment with Docker Compose completed successfully!"
           EOF
