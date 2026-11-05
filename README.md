@@ -1,297 +1,228 @@
-# TaskFlow
+# TaskFlow — DevOps & Cloud Infrastructure Guide
 
-A modern, full-stack task management application built with the MERN stack. Features a clean, responsive UI with dark/light mode, Redux state management, comprehensive CRUD operations, and Docker Compose orchestration.
+[![TaskFlow CI/CD Pipeline](https://github.com/thilinagamage001/taskflow-app/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/thilinagamage001/taskflow-app/actions/workflows/ci-cd.yml)
+[![Docker](https://img.shields.io/badge/Containers-Docker_Multi--Stage-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Docker Compose](https://img.shields.io/badge/Orchestration-Docker_Compose-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![Terraform](https://img.shields.io/badge/IaC-Terraform_1.5+-844FBA?logo=terraform&logoColor=white)](https://www.terraform.io/)
+[![AWS](https://img.shields.io/badge/Cloud-AWS_Free_Tier-232F3E?logo=amazon-aws&logoColor=white)](https://aws.amazon.com/free/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Features
+An enterprise-grade DevOps implementation for **TaskFlow**, a full-stack MERN application. This repository features end-to-end Infrastructure-as-Code (Terraform), Docker multi-stage containerization, Docker Compose orchestration, and an automated GitHub Actions CI/CD pipeline—specifically optimized to run **100% within the AWS Free Tier ($0/month)**.
 
-- **Authentication** — JWT-based register/login with persistent sessions
-- **Task Management** — Full CRUD with status, priority, category, tags, and favorites
-- **Dashboard** — Visual stats with pie/bar charts (Recharts)
-- **Search & Filter** — Text search, multi-criteria filtering, sorting, and pagination
-- **Dual View** — Grid and list views for tasks
-- **Dark/Light Mode** — Persistent theme preference with system detection
-- **Responsive** — Mobile, tablet, and desktop optimized
-- **Export** — Tasks to CSV download
-- **Profile** — Avatar upload, profile edit, and password change
-- **Dockerized** — Development and production Docker Compose setups (no Nginx required)
+---
 
-## Tech Stack
+## Table of Contents
 
-### Frontend
+- [DevOps Architecture](#devops-architecture)
+- [DevOps Stack Highlights](#devops-stack-highlights)
+- [Repository Structure](#repository-structure)
+- [Local Development with Docker](#local-development-with-docker)
+- [Infrastructure as Code (Terraform)](#infrastructure-as-code-terraform)
+- [Continuous Integration & Continuous Deployment (CI/CD)](#continuous-integration--continuous-deployment-cicd)
+- [Operational Runbook & Monitoring](#operational-runbook--monitoring)
+- [Security & Cost Optimization](#security--cost-optimization)
+- [License](#license)
 
-- React 19 + Vite 8
-- Redux Toolkit (state management)
-- React Router v7 (routing)
-- React Hook Form (form validation)
-- Tailwind CSS v4 (styling with custom theme)
-- Recharts (dashboard charts)
-- Axios (HTTP client with interceptors)
-- React Icons (HeroIcons v2)
-- clsx + tailwind-merge (class utilities)
+---
 
-### Backend
+## DevOps Architecture
 
-- Node.js + Express 4 (REST API)
-- MongoDB 6.0 + Mongoose 8 (database)
-- JWT (stateless authentication with httpOnly cookies)
-- bcrypt (password hashing)
-- express-validator (input validation)
-- Multer (file uploads — avatar)
-- cookie-parser, morgan, cors
-
-### DevOps
-
-- Docker Compose (development and production configs)
-- Nodemon (hot reload in development)
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18+)
-- Docker and Docker Compose (recommended)
-- MongoDB 6.0+ (for manual setup without Docker)
-
-### Quick Start (Docker — Recommended)
-
-```bash
-# Clone the repository
-git clone <your-repo-url>
-cd taskflow
-
-# Start all services (MongoDB, API, Frontend)
-docker compose -f docker-compose.dev.yml up -d
-
-# Seed the database with demo data
-docker compose -f docker-compose.dev.yml exec api npm run seed
-
-# Open in browser
-http://localhost:5173   # Vite dev server (proxies /api and /uploads to the API)
+```
+                      ┌──────────────────────────────────────────┐
+                      │         GitHub Actions (CI/CD)           │
+                      │   1. Lint & Build Frontend / Backend     │
+                      │   2. Build & Push Docker images to GHCR  │
+                      │   3. Deploy via SSH + Docker Compose     │
+                      └────────────────────┬─────────────────────┘
+                                           │
+┌──────────────────────────┐               │
+│     Terraform (IaC)      │               │
+│  1. VPC & Public Subnet  │               │
+│  2. Security Groups (80) │               │
+│  3. EC2 t3.micro (Free)  ├───────────────┤
+│  4. Cloud-Init (Docker)  │               │
+│  5. Elastic IP (Static)  │               │
+└──────────────────────────┘               ▼
+                               ┌─────────────────────────────────┐
+                               │       AWS EC2 (t3.micro)        │
+                               │  - 2 GB Swap Guard (No OOM)     │
+                               │  - Docker Engine & Compose      │
+                               │                                 │
+                               │  [docker-compose.prod.yml]      │
+                               │  ├── Frontend (:80 proxy)       │
+                               │  ├── Backend API (:5000)        │
+                               │  └── MongoDB (or Atlas Cloud)   │
+                               │  └── Volume: uploads-data       │
+                               └─────────────────────────────────┘
 ```
 
-### Demo Credentials
+---
 
-| Email              | Password  |
-| ------------------ | --------- |
-| `demo@taskflow.com` | `Demo1234` |
+## DevOps Stack Highlights
 
-### Manual Setup (Without Docker)
+| Domain | Technology | Implementation Details |
+| :--- | :--- | :--- |
+| **Cloud Provider** | AWS Free Tier | Single `t3.micro` instance (2 vCPUs, 1 GB RAM, 25 GB gp3 EBS, Elastic IP). |
+| **IaC** | Terraform (>= 1.5) | Fully declarative VPC, public subnet, internet gateway, route table, security groups, EC2, and automated cloud-init bootstrap. |
+| **Host Bootstrap** | Cloud-Init (`user_data`) | Automated OS configuration: 2 GB swapfile setup to guarantee memory stability on 1 GB RAM, Docker CE and Docker Compose installation, and group permissions. |
+| **Orchestration** | Docker Compose | Multi-container production orchestration with custom network isolation, health probes, and persistent volumes for avatars (`uploads-data`). |
+| **Containerization** | Docker | Multi-stage production builds with Node 22 (`server/Dockerfile.prod` and `client/Dockerfile.prod`), reducing image footprints and attack surface. |
+| **CI/CD** | GitHub Actions | Automated build verification, Docker image caching and publishing to GitHub Container Registry (`ghcr.io`), and zero-downtime SSH deployment. |
 
-**1. Start MongoDB**
+---
 
-Make sure MongoDB is running locally on port 27017.
-
-**2. Backend**
-
-```bash
-cd server
-npm install
-cp .env .env.local    # Edit .env.local with your MongoDB URI
-npm run seed          # Seed demo data
-npm run dev           # Start on http://localhost:5000
-```
-
-**3. Frontend**
-
-```bash
-cd client
-npm install
-npm run dev           # Start on http://localhost:5173
-```
-
-### Production Setup
-
-```bash
-docker compose -f docker-compose.prod.yml up -d --build
-```
-
-Access the app directly at `http://localhost`. The frontend image serves the built React app with a lightweight Node.js static server and proxies `/api` and `/uploads` to the API container — no Nginx needed.
-
-## Project Structure
+## Repository Structure
 
 ```
 taskflow/
-├── docker-compose.dev.yml        # Development: Mongo, API, Frontend
-├── docker-compose.prod.yml       # Production:  Mongo, API, Frontend
-├── client/                       # Vite + React frontend
-│   ├── Dockerfile.dev            # Development container
-│   ├── Dockerfile.prod           # Production container (multi-stage, Node static server)
-│   ├── server.js                 # Production static file server + API proxy
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ui/               # Button, Input, Select, Badge, Card, Modal, etc.
-│   │   │   ├── layout/           # Navbar, Sidebar, MainLayout, ProtectedRoute
-│   │   │   └── tasks/            # TaskCard, TaskFilters
-│   │   ├── pages/                # Login, Register, Dashboard, Tasks, TaskDetail, TaskForm, Profile
-│   │   ├── store/slices/         # Redux slices: auth, tasks, ui
-│   │   ├── services/             # API service layer (axios)
-│   │   ├── hooks/                # useLocalStorage, useDebounce
-│   │   └── utils/                # Helpers, color maps, CSV export
-│   └── .env                      # VITE_API_URL=http://localhost:5000/api
-├── server/                       # Express API server
-│   ├── Dockerfile.dev            # Development container
-│   ├── Dockerfile.prod           # Production container
-│   ├── src/
-│   │   ├── config/               # config.js, db.js
-│   │   ├── controllers/          # authController, taskController
-│   │   ├── services/             # authService, taskService (business logic)
-│   │   ├── models/               # User, Task (Mongoose schemas)
-│   │   ├── routes/               # authRoutes, taskRoutes, userRoutes
-│   │   ├── middleware/            # auth, errorHandler, validate, upload
-│   │   ├── validators/           # authValidator, taskValidator, userValidator
-│   │   └── utils/                # ApiError, ApiResponse, helpers, logger
-│   ├── seeds/                    # seed.js (demo user + 20 sample tasks)
-│   ├── uploads/                  # Avatar file uploads
-│   └── .env                      # Environment variables
-└── README.md
+├── docker-compose.prod.yml       # Production multi-container composition
+├── docker-compose.dev.yml        # Local development orchestration
+├── DEPLOYMENT.md                 # Detailed step-by-step deployment guide
+├── terraform/                    # Infrastructure as Code
+│   ├── main.tf                  # VPC, Subnet, Security Group, EC2 + Cloud-Init Docker, Elastic IP
+│   ├── variables.tf             # Input variables (region, instance type, keys)
+│   ├── outputs.tf               # Public IP, SSH command, application URL
+│   ├── terraform.tfvars.example # Example variable values
+│   └── terraform.tfvars         # Your local configuration (gitignored)
+├── .github/workflows/
+│   └── ci-cd.yml                # CI test, GHCR build/push, and EC2 Docker Compose deployment
+├── server/
+│   ├── Dockerfile.prod          # Multi-stage production backend container
+│   ├── Dockerfile.dev           # Development container
+│   └── src/                     # Express REST API
+└── client/
+    ├── Dockerfile.prod          # Multi-stage production frontend + static proxy container
+    ├── Dockerfile.dev           # Development container
+    └── src/                     # React 19 + Redux Toolkit SPA
 ```
 
-## API Reference
+---
 
-### Response Format
+## Local Development with Docker
 
-```json
-{
-  "success": true,
-  "message": "Tasks fetched successfully",
-  "data": {
-    "tasks": [],
-    "pagination": { "page": 1, "limit": 10, "total": 20, "pages": 2 }
-  },
-  "statusCode": 200
-}
+### 1. Start all services (MongoDB, Express API, Vite React Frontend)
+
+```bash
+docker compose -f docker-compose.dev.yml up -d
 ```
 
-### Error Format
+### 2. Seed demo data into the database
 
-```json
-{
-  "success": false,
-  "message": "Validation failed",
-  "errors": [
-    { "field": "email", "message": "Please provide a valid email" }
-  ]
-}
+```bash
+docker compose -f docker-compose.dev.yml exec api npm run seed
 ```
 
-### Authentication
+### 3. Open in your browser
+- Frontend: [http://localhost:5173](http://localhost:5173)
+- API: [http://localhost:5000/api/health](http://localhost:5000/api/health)
+- **Demo Credentials:** `demo@taskflow.com` / `Demo1234`
 
-All `/api/users` and `/api/tasks` routes require a valid JWT token sent via `Authorization: Bearer <token>` header or httpOnly cookie.
+---
 
-### Auth Endpoints
+## Infrastructure as Code (Terraform)
 
-| Method | Endpoint            | Body                                      | Description       |
-| ------ | ------------------- | ----------------------------------------- | ----------------- |
-| POST   | `/api/auth/register` | `{ name, email, password }`               | Register new user |
-| POST   | `/api/auth/login`    | `{ email, password }`                     | Login             |
-| POST   | `/api/auth/logout`   | —                                         | Logout            |
+### 1. Configure variables
 
-### User Endpoints (authenticated)
-
-| Method | Endpoint             | Body / Params                              | Description       |
-| ------ | -------------------- | ------------------------------------------ | ----------------- |
-| GET    | `/api/users/profile`  | —                                          | Get profile       |
-| PUT    | `/api/users/profile`  | `{ name, email }`                          | Update profile    |
-| PUT    | `/api/users/password` | `{ currentPassword, newPassword }`         | Change password   |
-| PUT    | `/api/users/avatar`   | FormData (`avatar` file, max 5MB)          | Upload avatar     |
-
-### Task Endpoints (authenticated)
-
-| Method | Endpoint                 | Body / Query                               | Description       |
-| ------ | ------------------------ | ------------------------------------------ | ----------------- |
-| GET    | `/api/tasks`              | Query params (see below)                   | List tasks        |
-| GET    | `/api/tasks/dashboard`    | —                                          | Dashboard stats   |
-| GET    | `/api/tasks/:id`          | —                                          | Get single task   |
-| POST   | `/api/tasks`              | `{ title, description, status, priority, dueDate, category, tags, isFavorite }` | Create task       |
-| PUT    | `/api/tasks/:id`          | Any task fields to update                  | Update task       |
-| DELETE | `/api/tasks/:id`          | —                                          | Delete task       |
-| POST   | `/api/tasks/:id/duplicate`| —                                          | Duplicate task    |
-
-### Query Parameters — GET /api/tasks
-
-| Param      | Values                                              | Default      |
-| ---------- | --------------------------------------------------- | ------------ |
-| `page`     | Positive integer                                    | `1`          |
-| `limit`    | 1–100                                               | `10`         |
-| `status`   | `pending`, `in-progress`, `completed`               | —            |
-| `priority` | `low`, `medium`, `high`                             | —            |
-| `category` | `work`, `personal`, `study`, `health`, `shopping`, `finance` | —            |
-| `search`   | Free text (searches title, description, tags)       | —            |
-| `sortBy`   | `createdAt`, `updatedAt`, `dueDate`, `priority`, `title` | `createdAt` |
-| `sortOrder`| `asc`, `desc`                                       | `desc`       |
-
-## Environment Variables
-
-### `server/.env`
-
-```env
-NODE_ENV=development
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/taskflow
-JWT_SECRET=taskflow_jwt_secret_key_change_in_production_2024
-JWT_EXPIRE=7d
-UPLOAD_DIR=uploads
+```bash
+cd terraform
+cp terraform.tfvars.example terraform.tfvars
 ```
 
-> **Docker:** When running in Docker Compose, the API container uses `mongodb://mongo:27017/taskflow` (set automatically in the `.env` file used by Docker).
-
-### `client/.env`
-
-```env
-VITE_API_URL=http://localhost:5000/api
+Edit `terraform.tfvars`:
+```hcl
+aws_region       = "us-east-1"
+key_pair_name    = "my-aws-key"
+private_key_file = "~/.ssh/my-aws-key.pem"
+instance_type    = "t3.micro"  # AWS Free Tier eligible
 ```
 
-## Architecture
+### 2. Initialize and deploy
 
-### Backend (MVC + Service Layer)
-
-```
-Request → Route → Validator → Controller → Service → Model → Response
-```
-
-- **Routes** define endpoints and apply middleware chain
-- **Validators** use `express-validator` for input validation
-- **Controllers** handle request/response, delegate to services
-- **Services** contain business logic and database queries
-- **Models** define Mongoose schemas with indexes and hooks
-
-### Frontend (Redux Toolkit + Service Layer)
-
-```
-Component → Dispatch(Thunk) → Service → Axios → API
-                                        ↓
-                              Redux Store ← Response
-                                        ↓
-                              Component Re-render
+```bash
+terraform init
+terraform plan
+terraform apply -auto-approve
 ```
 
-- **Redux slices** manage auth, tasks, and UI state
-- **Async thunks** handle API calls with loading/error states
-- **Service layer** abstracts Axios with interceptors (auth token injection, 401 redirect)
+Terraform automatically configures the server, installs Docker, creates a 2 GB swap space, and assigns an Elastic IP.
 
-## Features in Detail
+---
 
-### Task Management
-- Create tasks with title, description, status, priority, due date, category, and tags
-- Toggle task completion status
-- Favorite/unfavorite tasks
-- Duplicate tasks (creates a copy with "(Copy)" suffix)
-- Bulk search and filter by status, priority, category
-- Sort by date, priority, or title
-- Pagination with configurable page size
-- Grid and list view modes
+## Continuous Integration & Continuous Deployment (CI/CD)
 
-### Dashboard
-- Total task count, completed, pending, in-progress, overdue, due today
-- Category breakdown (pie chart)
-- Priority distribution (bar chart)
-- Recent tasks list (last 5)
+The GitHub Actions workflow in [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml) executes on every push to `main` or `develop`:
 
-### Profile
-- Upload/change avatar (JPEG, PNG, GIF, WebP, max 5MB)
-- Update name and email
-- Change password with current password verification
+1. **Test & Verify**: Installs dependencies and runs linting and build checks for both client and server.
+2. **Docker Build & Push**: Builds multi-stage production images with Docker Buildx and pushes them to **GitHub Container Registry (`ghcr.io`)**.
+3. **Deploy via Docker Compose**: Connects to the AWS EC2 instance via SSH, updates `docker-compose.prod.yml`, pulls the latest images, and restarts containers with `docker compose up -d`.
+
+### Setting Up GitHub Repository Secrets
+
+Under your GitHub repository → **Settings** → **Secrets and variables** → **Actions**:
+
+| Secret Name | Value |
+| :--- | :--- |
+| `EC2_HOST` | Output from `terraform output ec2_public_ip` (e.g. `3.211.185.56`) |
+| `EC2_USER` | `ubuntu` |
+| `SSH_PRIVATE_KEY` | Entire content of `~/.ssh/my-aws-key.pem` |
+| `MONGODB_URI` *(Optional)* | Cloud MongoDB Atlas URI (or leave blank to use containerized MongoDB) |
+| `JWT_SECRET` *(Optional)* | Production JWT signing secret |
+
+---
+
+## Operational Runbook & Monitoring
+
+### 1. View Service Status & Logs on EC2
+
+```bash
+# Connect to EC2
+ssh -i ~/.ssh/my-aws-key.pem ubuntu@<EC2_PUBLIC_IP>
+
+# Check running containers
+docker compose -f /home/ubuntu/taskflow-app/docker-compose.prod.yml ps
+
+# View live container logs
+docker compose -f /home/ubuntu/taskflow-app/docker-compose.prod.yml logs -f --tail=100
+```
+
+### 2. Seed Database on Production
+
+```bash
+docker compose -f /home/ubuntu/taskflow-app/docker-compose.prod.yml exec api npm run seed
+```
+
+### 3. Monitor Host Resources (RAM & Swap)
+
+```bash
+free -h
+docker stats --no-stream
+```
+
+---
+
+## Security & Cost Optimization
+
+### Security Controls
+- **Zero Exposed Database:** Port 27017 is strictly internal within Docker bridge network.
+- **Minimal Public Attack Surface:** Security Group opens only port 22 (SSH) and port 80/443 (HTTP/HTTPS).
+- **Non-Root Containers:** Multi-stage production Dockerfiles discard intermediate build toolchains.
+- **Upload File Integrity:** Multer strictly validates image MIME types and limits size to 5 MB.
+
+### AWS Free Tier Compliance Checklist
+- [x] **EC2:** `t3.micro` instance (within 750 free hours/month limit).
+- [x] **Storage:** 25 GB gp3 root volume (within 30 GB free monthly tier).
+- [x] **Elastic IP:** 1 EIP attached to a running instance (incurs zero idle fee).
+- [x] **Memory Stability:** 2 GB Swap file guarantees high stability on 1 GB RAM without paying for larger instances.
+
+### Teardown (Clean Up AWS Resources)
+
+```bash
+cd terraform
+terraform destroy -auto-approve
+```
+
+---
 
 ## License
 
-MIT
+This project is licensed under the [MIT License](LICENSE).

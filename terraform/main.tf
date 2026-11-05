@@ -61,10 +61,10 @@ resource "aws_route_table_association" "taskflow_public_rta" {
   route_table_id = aws_route_table.taskflow_public_rt.id
 }
 
-# --- Security Group ---
+# --- Security Group (Ports 22, 80, 443) ---
 resource "aws_security_group" "taskflow_sg" {
   name        = "${var.project_name}-sg"
-  description = "Security group for TaskFlow K3s EC2 instance"
+  description = "Security group for TaskFlow Docker EC2 instance"
   vpc_id      = aws_vpc.taskflow_vpc.id
 
   # SSH
@@ -92,15 +92,6 @@ resource "aws_security_group" "taskflow_sg" {
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  # Kubernetes API (Optional / Restricted to your IP)
-  ingress {
-    description = "Kubernetes API Server"
-    from_port   = 6443
-    to_port     = 6443
-    protocol    = "tcp"
-    cidr_blocks = [var.ssh_allowed_cidr]
   }
 
   # All outbound traffic
@@ -132,7 +123,7 @@ data "aws_ami" "ubuntu_latest" {
   }
 }
 
-# --- EC2 Instance (AWS Free Tier Eligible: t2.micro or t3.micro) ---
+# --- EC2 Instance (AWS Free Tier: t3.micro) ---
 resource "aws_instance" "taskflow_node" {
   ami                    = data.aws_ami.ubuntu_latest.id
   instance_type          = var.instance_type
@@ -151,8 +142,40 @@ resource "aws_instance" "taskflow_node" {
     }
   }
 
+  # Cloud-Init User Data: Installs Docker & Docker Compose, configures 2GB Swap
+  user_data = <<-EOF
+              #!/bin/bash
+              set -ex
+
+              # 1. Configure 2GB Swap file (critical for 1GB RAM t3.micro)
+              fallocate -l 2G /swapfile
+              chmod 600 /swapfile
+              mkswap /swapfile
+              swapon /swapfile
+              echo '/swapfile none swap sw 0 0' >> /etc/fstab
+              sysctl vm.swappiness=10
+              echo 'vm.swappiness=10' >> /etc/sysctl.conf
+
+              # 2. Install Docker and Docker Compose
+              apt-get update -y
+              apt-get install -y ca-certificates curl gnupg git docker.io docker-compose-v2
+
+              # 3. Enable and start Docker service
+              systemctl enable docker
+              systemctl start docker
+
+              # 4. Add ubuntu user to docker group
+              usermod -aG docker ubuntu
+
+              # 5. Create deployment directory
+              mkdir -p /home/ubuntu/taskflow-app
+              chown -R ubuntu:ubuntu /home/ubuntu/taskflow-app
+
+              echo "Initialization complete!" > /var/log/user-data-complete.log
+              EOF
+
   tags = {
-    Name        = "${var.project_name}-k3s-node"
+    Name        = "${var.project_name}-docker-node"
     Environment = var.environment
   }
 }
@@ -167,14 +190,4 @@ resource "aws_eip" "taskflow_eip" {
   tags = {
     Name = "${var.project_name}-eip"
   }
-}
-
-# --- Auto-generated Ansible inventory file ---
-resource "local_file" "ansible_inventory" {
-  content = templatefile("${path.module}/templates/inventory.ini.tftpl", {
-    public_ip        = aws_eip.taskflow_eip.public_ip
-    ssh_user         = "ubuntu"
-    private_key_path = var.private_key_file
-  })
-  filename = "${path.module}/../ansible/inventory.ini"
 }
