@@ -5,6 +5,9 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import { register } from "./config/metrics.js";
+import { metricsMiddleware } from "./middleware/metrics.js";
+
 import connectDB from './config/db.js';
 import config from './config/config.js';
 import authRoutes from './routes/authRoutes.js';
@@ -13,6 +16,8 @@ import taskRoutes from './routes/taskRoutes.js';
 import errorHandler from './middleware/errorHandler.js';
 import ApiError from './utils/ApiError.js';
 import logger from './utils/logger.js';
+
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,6 +33,12 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan('dev'));
+
+app.use(metricsMiddleware);
+app.get("/metrics", async (req, res) => {
+  res.set("Content-Type", register.contentType);
+  res.end(await register.metrics());
+});
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
