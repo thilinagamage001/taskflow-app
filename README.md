@@ -66,7 +66,7 @@ An enterprise-grade DevOps implementation for **TaskFlow**, a full-stack MERN ap
 | **IaC** | Terraform (>= 1.5) | Fully declarative VPC, public subnet, internet gateway, route table, security groups, EC2, and automated cloud-init bootstrap. |
 | **Host Bootstrap** | Cloud-Init (`user_data`) | Automated OS configuration: 2 GB swapfile setup to guarantee memory stability on 1 GB RAM, Docker CE and Docker Compose installation, and group permissions. |
 | **Orchestration** | Docker Compose | Multi-container production orchestration with custom network isolation, health probes, and persistent volumes for avatars (`uploads-data`). |
-| **Containerization** | Docker | Multi-stage production builds with Node 22 (`server/Dockerfile.prod` and `client/Dockerfile.prod`), reducing image footprints and attack surface. |
+| **Containerization** | Docker | Multi-stage production builds with Node 22 (`server/Dockerfile.prod`) and Nginx Alpine (`client/Dockerfile.prod`), reducing image footprints and attack surface. |
 | **CI/CD** | GitHub Actions | Automated build verification, Docker image caching and publishing to GitHub Container Registry (`ghcr.io`), and zero-downtime SSH deployment. |
 
 ---
@@ -91,7 +91,7 @@ taskflow/
 │   ├── Dockerfile.dev           # Development container
 │   └── src/                     # Express REST API
 └── client/
-    ├── Dockerfile.prod          # Multi-stage production frontend + static proxy container
+    ├── Dockerfile.prod          # Multi-stage production frontend (React + Nginx) container
     ├── Dockerfile.dev           # Development container
     └── src/                     # React 19 + Redux Toolkit SPA
 ```
