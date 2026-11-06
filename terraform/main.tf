@@ -123,13 +123,47 @@ data "aws_ami" "ubuntu_latest" {
   }
 }
 
+# --- IAM Role & Instance Profile for AWS Systems Manager (SSM) ---
+resource "aws_iam_role" "taskflow_ec2_ssm_role" {
+  name = "${var.project_name}-ec2-ssm-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
+
+  tags = {
+    Name        = "${var.project_name}-ec2-ssm-role"
+    Environment = var.environment
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "taskflow_ssm_policy_attach" {
+  role       = aws_iam_role.taskflow_ec2_ssm_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_instance_profile" "taskflow_ec2_ssm_profile" {
+  name = "${var.project_name}-ec2-ssm-profile"
+  role = aws_iam_role.taskflow_ec2_ssm_role.name
+}
+
 # --- EC2 Instance (AWS Free Tier: t3.micro) ---
 resource "aws_instance" "taskflow_node" {
   ami                    = data.aws_ami.ubuntu_latest.id
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.taskflow_public_subnet.id
   vpc_security_group_ids = [aws_security_group.taskflow_sg.id]
-  key_name               = var.key_pair_name
+  key_name               = var.key_pair_name != "" ? var.key_pair_name : null
+  iam_instance_profile   = aws_iam_instance_profile.taskflow_ec2_ssm_profile.name
 
   # Free Tier includes up to 30 GB EBS
   root_block_device {
@@ -142,7 +176,7 @@ resource "aws_instance" "taskflow_node" {
     }
   }
 
-  # Cloud-Init User Data: Installs Docker & Docker Compose, configures 2GB Swap
+  # Cloud-Init User Data: Installs Docker & Docker Compose, configures 2GB Swap, enables SSM Agent
   user_data = <<-EOF
               #!/bin/bash
               set -ex
@@ -167,7 +201,10 @@ resource "aws_instance" "taskflow_node" {
               # 4. Add ubuntu user to docker group
               usermod -aG docker ubuntu
 
-              # 5. Create deployment directory
+              # 5. Ensure AWS SSM Agent is running
+              systemctl enable --now snap.amazon-ssm-agent.amazon-ssm-agent.service || true
+
+              # 6. Create deployment directory
               mkdir -p /home/ubuntu/taskflow-app
               chown -R ubuntu:ubuntu /home/ubuntu/taskflow-app
 
@@ -176,6 +213,7 @@ resource "aws_instance" "taskflow_node" {
 
   tags = {
     Name        = "${var.project_name}-docker-node"
+    Project     = var.project_name
     Environment = var.environment
   }
 }

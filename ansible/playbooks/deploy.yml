@@ -1,0 +1,10 @@
+---
+- name: Deploy TaskFlow application
+  hosts: taskflow
+  become: true
+
+  vars:
+    image_tag: "{{ lookup('env', 'IMAGE_TAG') | default('latest', true) }}"
+
+  roles:
+    - taskflow
