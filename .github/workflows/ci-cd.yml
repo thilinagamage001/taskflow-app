@@ -113,21 +113,27 @@ jobs:
     needs: build-and-push
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION || 'us-east-1' }}
+      EC2_HOST: ${{ secrets.EC2_HOST }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       # --- Method A: Fully Automated AWS Systems Manager (SSM) Deployment ---
       - name: Configure AWS Credentials
-        if: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}
+        if: env.AWS_ACCESS_KEY_ID != ''
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy via AWS Systems Manager (SSM)
-        if: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}
+        if: env.AWS_ACCESS_KEY_ID != ''
         env:
           IMAGE_TAG: ${{ needs.build-and-push.outputs.image_tag }}
           OWNER: ${{ needs.build-and-push.outputs.owner }}
@@ -259,7 +265,7 @@ jobs:
 
       # --- Method B: SSH Deployment Fallback (Used if AWS_ACCESS_KEY_ID is not provided) ---
       - name: Deploy via SSH (Fallback)
-        if: ${{ secrets.AWS_ACCESS_KEY_ID == '' && secrets.EC2_HOST != '' && secrets.SSH_PRIVATE_KEY != '' }}
+        if: env.AWS_ACCESS_KEY_ID == '' && env.EC2_HOST != '' && env.SSH_PRIVATE_KEY != ''
         env:
           EC2_HOST: ${{ secrets.EC2_HOST }}
           EC2_USER: ${{ secrets.EC2_USER || 'ubuntu' }}
@@ -310,3 +316,8 @@ jobs:
 
             echo "TaskFlow deployment with Docker Compose completed successfully!"
           EOF
+
+      - name: Deployment Notice (Skipped)
+        if: env.AWS_ACCESS_KEY_ID == '' && (env.EC2_HOST == '' || env.SSH_PRIVATE_KEY == '')
+        run: |
+          echo "::warning ::Neither AWS SSM credentials (AWS_ACCESS_KEY_ID) nor SSH credentials (EC2_HOST, SSH_PRIVATE_KEY) are configured. Skipping deployment."
