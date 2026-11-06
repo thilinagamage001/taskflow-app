@@ -1,0 +1,18 @@
+---
+# Defaults for taskflow role
+image_tag: "latest"
+ghcr_owner: "thilinagamage001"
+jwt_secret: "taskflow_super_secret_jwt_key_2024"
+jwt_expire: "7d"
+grafana_admin_password: "TaskFlowAdminPass123!"
+mongodb_uri: "mongodb://mongo:27017/taskflow"
+mongo_root_username: "admin"
+mongo_root_password: "mongo_root_password_change_me"
+
+# Optional overrides for direct image names
+backend_image: "ghcr.io/{{ ghcr_owner }}/taskflow-server:{{ image_tag }}"
+frontend_image: "ghcr.io/{{ ghcr_owner }}/taskflow-client:{{ image_tag }}"
+
+# GitHub Container Registry credentials (can be overridden via Ansible Vault or CI)
+vault_ghcr_username: "{{ lookup('env', 'GHCR_USERNAME') | default(lookup('env', 'GITHUB_ACTOR'), true) | default(ghcr_owner, true) }}"
+vault_ghcr_token: "{{ lookup('env', 'GHCR_TOKEN') | default(lookup('env', 'GITHUB_TOKEN'), true) | default('', true) }}"

@@ -106,10 +106,10 @@ jobs:
           cache-to: type=gha,mode=max
 
   # =========================================================================
-  # 3. CONTINUOUS DEPLOYMENT: DOCKER COMPOSE ON AWS EC2
+  # 3. CONTINUOUS DEPLOYMENT: AWS SYSTEMS MANAGER (SSM) / SSH FALLBACK
   # =========================================================================
   deploy:
-    name: Deploy with Docker Compose to AWS EC2
+    name: Deploy to AWS EC2
     needs: build-and-push
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
@@ -117,7 +117,149 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup SSH Key & Deploy to EC2
+      # --- Method A: Fully Automated AWS Systems Manager (SSM) Deployment ---
+      - name: Configure AWS Credentials
+        if: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
+
+      - name: Deploy via AWS Systems Manager (SSM)
+        if: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}
+        env:
+          IMAGE_TAG: ${{ needs.build-and-push.outputs.image_tag }}
+          OWNER: ${{ needs.build-and-push.outputs.owner }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.actor }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          GRAFANA_ADMIN_PASSWORD: ${{ secrets.GRAFANA_ADMIN_PASSWORD || 'AdminTaskFlow123!' }}
+        run: |
+          echo "Discovering EC2 instance via tag Project=taskflow..."
+          INSTANCE_ID=$(aws ec2 describe-instances \
+            --filters "Name=tag:Project,Values=taskflow" "Name=instance-state-name,Values=running" \
+            --query "Reservations[].Instances[].InstanceId" \
+            --output text)
+
+          if [ -z "$INSTANCE_ID" ]; then
+            echo "::error ::No running EC2 instance found with tag Project=taskflow"
+            exit 1
+          fi
+
+          echo "Targeting EC2 Instance: $INSTANCE_ID"
+
+          DEPLOY_SCRIPT=$(cat << 'EOF'
+          set -e
+          DEPLOY_DIR="/home/ubuntu/taskflow-app"
+          mkdir -p "$DEPLOY_DIR"
+          cd "$DEPLOY_DIR"
+
+          # Sync repository configuration
+          REPO_URL="https://x-access-token:__GHCR_TOKEN__@github.com/__REPO__.git"
+          if [ ! -d ".git" ]; then
+            git clone "$REPO_URL" .
+          else
+            git remote set-url origin "$REPO_URL"
+            git fetch origin "__REF_NAME__"
+            git checkout "__REF_NAME__"
+            git reset --hard "origin/__REF_NAME__"
+          fi
+
+          chown -R ubuntu:ubuntu "$DEPLOY_DIR"
+
+          mkdir -p server client
+          cat << 'ENVFILE' > server/.env
+          NODE_ENV=production
+          PORT=5000
+          MONGODB_URI=__MONGODB_URI__
+          JWT_SECRET=__JWT_SECRET__
+          JWT_EXPIRE=7d
+          UPLOAD_DIR=uploads
+          ENVFILE
+
+          cat << 'ENVFILE' > .env
+          NODE_ENV=production
+          PORT=5000
+          MONGODB_URI=__MONGODB_URI__
+          JWT_SECRET=__JWT_SECRET__
+          JWT_EXPIRE=7d
+          UPLOAD_DIR=uploads
+          BACKEND_IMAGE=__BACKEND_IMAGE__
+          FRONTEND_IMAGE=__FRONTEND_IMAGE__
+          GRAFANA_ADMIN_PASSWORD=__GRAFANA_ADMIN_PASSWORD__
+          ENVFILE
+
+          echo "VITE_API_URL=/api" > client/.env
+
+          echo "__GHCR_TOKEN__" | docker login ghcr.io -u "__ACTOR__" --password-stdin
+
+          export BACKEND_IMAGE="__BACKEND_IMAGE__"
+          export FRONTEND_IMAGE="__FRONTEND_IMAGE__"
+          export GRAFANA_ADMIN_PASSWORD="__GRAFANA_ADMIN_PASSWORD__"
+
+          docker compose -f docker-compose.prod.yml pull
+          docker compose -f docker-compose.prod.yml up -d --remove-orphans
+          docker image prune -f
+
+          echo "Verifying application health..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost/api/health > /dev/null; then
+              echo "TaskFlow API is healthy and reachable!"
+              exit 0
+            fi
+            sleep 2
+          done
+
+          echo "Health check timed out!"
+          exit 1
+          EOF
+          )
+
+          DEPLOY_PAYLOAD=$(echo "$DEPLOY_SCRIPT" \
+            | sed "s|__GHCR_TOKEN__|${GHCR_TOKEN}|g" \
+            | sed "s|__REPO__|${GITHUB_REPOSITORY}|g" \
+            | sed "s|__REF_NAME__|${GITHUB_REF_NAME:-main}|g" \
+            | sed "s|__MONGODB_URI__|${MONGODB_URI:-mongodb://mongo:27017/taskflow}|g" \
+            | sed "s|__JWT_SECRET__|${JWT_SECRET:-taskflow_super_secret_jwt_key_2024}|g" \
+            | sed "s|__BACKEND_IMAGE__|ghcr.io/${OWNER}/taskflow-server:${IMAGE_TAG}|g" \
+            | sed "s|__FRONTEND_IMAGE__|ghcr.io/${OWNER}/taskflow-client:${IMAGE_TAG}|g" \
+            | sed "s|__GRAFANA_ADMIN_PASSWORD__|${GRAFANA_ADMIN_PASSWORD}|g" \
+            | sed "s|__ACTOR__|${ACTOR}|g" \
+            | base64 -w 0)
+
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "$INSTANCE_ID" \
+            --document-name "AWS-RunShellScript" \
+            --comment "TaskFlow Deployment ${IMAGE_TAG}" \
+            --parameters "{\"commands\":[\"echo $DEPLOY_PAYLOAD | base64 -d | bash\"]}" \
+            --query "Command.CommandId" \
+            --output text)
+
+          echo "Triggered SSM command: $COMMAND_ID"
+          echo "Waiting for execution to complete..."
+
+          aws ssm wait command-executed --command-id "$COMMAND_ID" --instance-id "$INSTANCE_ID"
+
+          STATUS=$(aws ssm get-command-invocation --command-id "$COMMAND_ID" --instance-id "$INSTANCE_ID" --query "Status" --output text)
+          OUTPUT=$(aws ssm get-command-invocation --command-id "$COMMAND_ID" --instance-id "$INSTANCE_ID" --query "StandardOutputContent" --output text)
+          ERROR_OUTPUT=$(aws ssm get-command-invocation --command-id "$COMMAND_ID" --instance-id "$INSTANCE_ID" --query "StandardErrorContent" --output text)
+
+          echo "=== SSM Execution Output ==="
+          echo "$OUTPUT"
+
+          if [ "$STATUS" != "Success" ]; then
+            echo "=== SSM Execution Errors ==="
+            echo "$ERROR_OUTPUT"
+            exit 1
+          fi
+
+          echo "TaskFlow deployment with AWS SSM completed successfully!"
+
+      # --- Method B: SSH Deployment Fallback (Used if AWS_ACCESS_KEY_ID is not provided) ---
+      - name: Deploy via SSH (Fallback)
+        if: ${{ secrets.AWS_ACCESS_KEY_ID == '' && secrets.EC2_HOST != '' && secrets.SSH_PRIVATE_KEY != '' }}
         env:
           EC2_HOST: ${{ secrets.EC2_HOST }}
           EC2_USER: ${{ secrets.EC2_USER || 'ubuntu' }}
@@ -128,29 +270,21 @@ jobs:
           ACTOR: ${{ github.actor }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          GRAFANA_ADMIN_PASSWORD: ${{ secrets.GRAFANA_ADMIN_PASSWORD || 'AdminTaskFlow123!' }}
         run: |
-          if [ -z "$EC2_HOST" ] || [ -z "$SSH_PRIVATE_KEY" ]; then
-            echo "::warning ::EC2_HOST or SSH_PRIVATE_KEY secret is not set. Skipping automated deployment."
-            exit 0
-          fi
-
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
-          # Ensure deployment directory exists on remote host
           ssh "$EC2_USER@$EC2_HOST" "mkdir -p /home/ubuntu/taskflow-app"
-
-          # Copy docker-compose.prod.yml to EC2
           scp docker-compose.prod.yml "$EC2_USER@$EC2_HOST":/home/ubuntu/taskflow-app/docker-compose.prod.yml
+          scp -r monitoring "$EC2_USER@$EC2_HOST":/home/ubuntu/taskflow-app/
 
-          # Execute deployment via Docker Compose
           ssh "$EC2_USER@$EC2_HOST" "bash -s" << EOF
             set -e
             cd /home/ubuntu/taskflow-app
 
-            # Create server/.env with production settings if not existing
             mkdir -p server client
             if [ ! -f server/.env ]; then
               cat << 'ENVFILE' > server/.env
@@ -163,21 +297,15 @@ jobs:
           ENVFILE
             fi
 
-            # Create client/.env
             echo "VITE_API_URL=/api" > client/.env
-
-            # Authenticate with GHCR so private or public images can always be pulled
             echo "${GHCR_TOKEN}" | docker login ghcr.io -u "${ACTOR}" --password-stdin
 
-            # Export production image tags
             export BACKEND_IMAGE="ghcr.io/${OWNER}/taskflow-server:${IMAGE_TAG}"
             export FRONTEND_IMAGE="ghcr.io/${OWNER}/taskflow-client:${IMAGE_TAG}"
+            export GRAFANA_ADMIN_PASSWORD="${GRAFANA_ADMIN_PASSWORD:-AdminTaskFlow123!}"
 
-            # Pull latest images and restart containers
             docker compose -f docker-compose.prod.yml pull
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
-
-            # Clean up old dangling images
             docker image prune -f
 
             echo "TaskFlow deployment with Docker Compose completed successfully!"

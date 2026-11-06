@@ -1,0 +1,72 @@
+---
+- name: Create TaskFlow deployment directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop:
+    - /opt/taskflow
+    - /opt/taskflow/server
+    - /opt/taskflow/monitoring
+
+- name: Copy production Docker Compose configuration
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../../docker-compose.prod.yml"
+    dest: /opt/taskflow/docker-compose.prod.yml
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Copy monitoring configuration
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../../monitoring/"
+    dest: /opt/taskflow/monitoring/
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Create root production environment file
+  ansible.builtin.template:
+    src: .env.j2
+    dest: /opt/taskflow/.env
+    owner: root
+    group: root
+    mode: "0600"
+
+- name: Create server environment file for backend container
+  ansible.builtin.template:
+    src: .env.j2
+    dest: /opt/taskflow/server/.env
+    owner: root
+    group: root
+    mode: "0600"
+
+- name: Authenticate with GitHub Container Registry
+  community.docker.docker_login:
+    registry_url: ghcr.io
+    username: "{{ vault_ghcr_username }}"
+    password: "{{ vault_ghcr_token }}"
+    config_path: /root/.docker/config.json
+  no_log: true
+  when: vault_ghcr_token is defined and (vault_ghcr_token | length > 0)
+
+- name: Deploy TaskFlow containers
+  community.docker.docker_compose_v2:
+    project_src: /opt/taskflow
+    files:
+      - docker-compose.prod.yml
+    state: present
+    pull: always
+  register: taskflow_deployment
+
+- name: Verify TaskFlow health endpoint
+  ansible.builtin.uri:
+    url: http://127.0.0.1/api/health
+    method: GET
+    status_code: 200
+  register: health_check
+  retries: 12
+  delay: 10
+  until: health_check.status == 200
