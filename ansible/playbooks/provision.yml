@@ -1,0 +1,8 @@
+---
+- name: Prepare TaskFlow production server
+  hosts: taskflow
+  become: true
+
+  roles:
+    - common
+    - docker
