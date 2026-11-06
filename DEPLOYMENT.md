@@ -55,7 +55,7 @@ taskflow/
 │   ├── Dockerfile.prod          # Multi-stage Node.js backend container
 │   └── ...
 └── client/
-    ├── Dockerfile.prod          # Multi-stage React + Node static server container
+    ├── Dockerfile.prod          # Multi-stage React + Nginx static server container
     └── ...
 ```
 
