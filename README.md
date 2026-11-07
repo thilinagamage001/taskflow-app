@@ -35,7 +35,7 @@ An enterprise-grade, cost-optimized DevOps implementation for **TaskFlow** (a fu
 ## DevOps Architecture
 
 <p align="center">
-  <img src="docs/images/devops-architecture.png" alt="TaskFlow DevOps & Cloud Architecture" width="100%">
+  <img src="docs/images/devops-architecture.png?v=2" alt="TaskFlow DevOps & Cloud Architecture" width="100%">
 </p>
 
 ### Infrastructure & Deployment Flow
@@ -277,7 +277,7 @@ IMAGE_TAG=latest ansible-playbook -i ansible/inventory/production.ini ansible/pl
 ## Continuous Integration & Zero-Touch Deployment (CI/CD)
 
 <p align="center">
-  <img src="docs/images/cicd-pipeline.png" alt="TaskFlow Automated CI/CD Pipeline" width="100%">
+  <img src="docs/images/cicd-pipeline.png?v=2" alt="TaskFlow Automated CI/CD Pipeline" width="100%">
 </p>
 
 The CI/CD pipeline defined in [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml) automates testing, container image packaging, and deployment to AWS.
@@ -344,7 +344,7 @@ Configure these secrets in **GitHub Repo** → **Settings** → **Secrets and va
 ## Full-Stack Observability & Monitoring
 
 <p align="center">
-  <img src="docs/images/observability-monitoring.png" alt="TaskFlow Full-Stack Observability & Monitoring" width="100%">
+  <img src="docs/images/observability-monitoring.png?v=2" alt="TaskFlow Full-Stack Observability & Monitoring" width="100%">
 </p>
 
 The production stack incorporates a complete 3-pillar observability pipeline designed to give end-to-end visibility into infrastructure health, container performance, and application behavior:

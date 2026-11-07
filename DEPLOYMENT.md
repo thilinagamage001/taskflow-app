@@ -7,7 +7,7 @@ This project includes a streamlined, production-grade Infrastructure-as-Code (Te
 ## Architecture Overview
 
 <p align="center">
-  <img src="docs/images/devops-architecture.png" alt="TaskFlow DevOps & Cloud Architecture" width="100%">
+  <img src="docs/images/devops-architecture.png?v=2" alt="TaskFlow DevOps & Cloud Architecture" width="100%">
 </p>
 
 ---
