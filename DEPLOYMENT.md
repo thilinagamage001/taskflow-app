@@ -6,34 +6,9 @@ This project includes a streamlined, production-grade Infrastructure-as-Code (Te
 
 ## Architecture Overview
 
-```
-                      ┌──────────────────────────────────────────┐
-                      │         GitHub Actions (CI/CD)           │
-                      │   1. Lint & Build Frontend / Backend     │
-                      │   2. Build & Push Docker images to GHCR  │
-                      │   3. Deploy via SSH + Docker Compose     │
-                      └────────────────────┬─────────────────────┘
-                                           │
-┌──────────────────────────┐               │
-│     Terraform (IaC)      │               │
-│  1. VPC & Public Subnet  │               │
-│  2. Security Groups (80) │               │
-│  3. EC2 t3.micro (Free)  ├───────────────┤
-│  4. Cloud-Init (Docker)  │               │
-│  5. Elastic IP (Static)  │               │
-└──────────────────────────┘               ▼
-                               ┌─────────────────────────────────┐
-                               │       AWS EC2 (t3.micro)        │
-                               │  - 2 GB Swap Guard (No OOM)     │
-                               │  - Docker Engine & Compose      │
-                               │                                 │
-                               │  [docker-compose.prod.yml]      │
-                               │  ├── Frontend (:80 proxy)       │
-                               │  ├── Backend API (:5000)        │
-                               │  └── MongoDB (or Atlas Cloud)   │
-                               │  └── Volume: uploads-data       │
-                               └─────────────────────────────────┘
-```
+<p align="center">
+  <img src="docs/images/devops-architecture.png" alt="TaskFlow DevOps & Cloud Architecture" width="100%">
+</p>
 
 ---
 
