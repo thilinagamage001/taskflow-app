@@ -231,49 +231,6 @@ IMAGE_TAG=latest ansible-playbook -i ansible/inventory/production.ini ansible/pl
   <img src="docs/images/cicd-pipeline.png?v=2" alt="TaskFlow Automated CI/CD Pipeline" width="100%">
 </p>
 
-The CI/CD pipeline defined in [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml) automates testing, container image packaging, and deployment to AWS.
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Dev as Developer
-    participant GH as GitHub Repository
-    participant Runner as GitHub Actions Runner
-    participant GHCR as GitHub Container Registry
-    participant SSM as AWS Systems Manager
-    participant EC2 as AWS EC2 (t3.micro)
-
-    Dev->>GH: git push (main / develop)
-    GH->>Runner: Trigger CI/CD Workflow
-    
-    rect rgb(30, 40, 60)
-        Note over Runner: Stage 1: Lint & Build Verification
-        Runner->>Runner: Setup Node.js 22 & Restore Cache
-        Runner->>Runner: npm ci (server & client)
-        Runner->>Runner: npm run lint & npm run build
-    end
-
-    rect rgb(40, 50, 70)
-        Note over Runner: Stage 2: Docker Buildx & GHCR Push
-        Runner->>Runner: Generate Short SHA Tag
-        Runner->>GHCR: Authenticate via GITHUB_TOKEN
-        Runner->>GHCR: Build & Push taskflow-server (:latest, :sha)
-        Runner->>GHCR: Build & Push taskflow-client (:latest, :sha)
-    end
-
-    rect rgb(50, 60, 80)
-        Note over Runner, EC2: Stage 3: Zero-Touch Deployment
-        Runner->>SSM: aws ec2 describe-instances (tag:Project=taskflow)
-        Runner->>SSM: aws ssm send-command (RunShellScript payload)
-        SSM->>EC2: Execute deployment payload as root
-        EC2->>EC2: Pull updated repo config & template .env
-        EC2->>GHCR: docker login & docker compose pull
-        EC2->>EC2: docker compose up -d --remove-orphans
-        EC2->>EC2: Validate http://localhost/api/health (retry loop)
-        EC2-->>SSM: Command status & logs (Success)
-        SSM-->>Runner: Command Completed
-    end
-```
 
 ### Required GitHub Secrets
 
