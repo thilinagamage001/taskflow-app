@@ -1,4 +1,4 @@
-# TaskFlow — DevOps & Cloud Infrastructure Guide
+# TaskFlow - DevOps & Cloud Infrastructure Guide
 
 [![TaskFlow CI/CD Pipeline](https://github.com/thilinagamage001/taskflow-app/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/thilinagamage001/taskflow-app/actions/workflows/ci-cd.yml)
 [![Docker](https://img.shields.io/badge/Containers-Docker_Multi--Stage-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
@@ -38,55 +38,6 @@ An enterprise-grade, cost-optimized DevOps implementation for **TaskFlow** (a fu
   <img src="docs/images/devops-architecture.png?v=2" alt="TaskFlow DevOps & Cloud Architecture" width="100%">
 </p>
 
-### Infrastructure & Deployment Flow
-
-```mermaid
-flowchart TD
-    subgraph VCS_and_CI["GitHub & Actions CI/CD"]
-        Developer["Developer Commit / PR"] -->|Push to main / develop| GHA["GitHub Actions Runner"]
-        GHA -->|1. Test & Build Check| Verification["npm ci & build verification"]
-        GHA -->|2. Docker Buildx & Cache| GHCR["GitHub Container Registry (ghcr.io)"]
-        GHA -->|3. Zero-Touch Deploy| SSM["AWS Systems Manager (SSM Run Command)"]
-    end
-
-    subgraph AWS_Cloud["AWS Cloud (Free Tier - us-east-1)"]
-        SSM -->|Execute Shell Payload| EC2["EC2 t3.micro (Ubuntu 24.04 LTS)"]
-        EIP["Static Elastic IP (eip-taskflow)"] --- EC2
-        
-        subgraph EC2_Host["EC2 Instance Host Environment"]
-            Swap["2 GB Swap Safeguard (Anti-OOM)"]
-            DockerDaemon["Docker Engine CE & Compose v2"]
-            SSMAgent["Amazon SSM Agent (IAM Core Profile)"]
-        end
-
-        subgraph Docker_Compose_Stack["Docker Compose Orchestration (taskflow-network)"]
-            direction TB
-            Nginx["frontend (Nginx Alpine :80)\n- SPA Routing\n- Gzip & Cache\n- Reverse Proxy"]
-            API["api (Node 22 Express :5000)\n- REST API\n- /metrics (prom-client)\n- /api/health probe"]
-            DB[("mongo (MongoDB 6.0 :27017)\nVolume: mongo-data")]
-            
-            subgraph Monitoring_Suite["Observability Stack"]
-                Prometheus["prometheus (:9090)\n- Scrapes Node, API, cAdvisor\n- Alert rules (alerts.yml)"]
-                Grafana["grafana (:3000)\n- Pre-provisioned dashboards\n- Localhost bound"]
-                NodeExp["node-exporter (:9100)\nHost hardware & OS metrics"]
-                cAdvisor["cadvisor (:8080)\nContainer CPU, Memory & I/O"]
-            end
-
-            Nginx -->|/api/* & /uploads/*| API
-            API --> DB
-            Prometheus --> API
-            Prometheus --> NodeExp
-            Prometheus --> cAdvisor
-            Grafana --> Prometheus
-        end
-    end
-
-    InternetUsers(("Public Traffic / Users")) -->|Port 80 (HTTP)| EIP
-    DevOpsAdmin(("DevOps / Admin")) -->|SSH :22 or SSM Session Manager| EC2
-    DevOpsAdmin -->|SSH Tunnel :3000| Grafana
-```
-
----
 
 ## Key DevOps Capabilities
 
@@ -445,4 +396,4 @@ terraform destroy -auto-approve
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License see the [LICENSE](LICENSE) file for details.
