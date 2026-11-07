@@ -1,31 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 780" width="100%" height="100%" style="background:#090d16; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 820" width="100%" height="100%" style="background:#070b14; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
   <defs>
-    <!-- Background Gradients -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#090d16"/>
-      <stop offset="100%" stop-color="#050811"/>
-    </linearGradient>
-
-    <!-- Zone Gradients -->
-    <linearGradient id="gitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e1b4b" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
-    </linearGradient>
-
-    <linearGradient id="iacGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3b0764" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
-    </linearGradient>
-
-    <linearGradient id="awsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#451a03" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
-    </linearGradient>
-
-    <linearGradient id="k8sGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.7"/>
+      <stop offset="0%" stop-color="#0a101d"/>
+      <stop offset="50%" stop-color="#070b14"/>
+      <stop offset="100%" stop-color="#04070d"/>
     </linearGradient>
 
     <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -34,419 +12,384 @@
       <stop offset="100%" stop-color="#34d399"/>
     </linearGradient>
 
-    <!-- Drop Shadows -->
-    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.5"/>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6"/>
     </filter>
 
-    <filter id="iconGlowBlue" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#38bdf8" flood-opacity="0.4"/>
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#38bdf8" flood-opacity="0.5"/>
     </filter>
-    <filter id="iconGlowPurple" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#a855f7" flood-opacity="0.4"/>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#34d399" flood-opacity="0.5"/>
     </filter>
-    <filter id="iconGlowOrange" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#ff9900" flood-opacity="0.4"/>
+    <filter id="glowOrange" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#fb923c" flood-opacity="0.5"/>
     </filter>
-    <filter id="iconGlowGreen" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#10b981" flood-opacity="0.4"/>
+    <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#c084fc" flood-opacity="0.5"/>
     </filter>
 
-    <!-- Arrow Markers -->
-    <marker id="arrowCyan" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <marker id="arrCyan" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
     </marker>
-    <marker id="arrowPurple" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    <marker id="arrPurple" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#a855f7"/>
     </marker>
-    <marker id="arrowGreen" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <marker id="arrGreen" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
     </marker>
-    <marker id="arrowOrange" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <marker id="arrOrange" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fb923c"/>
     </marker>
   </defs>
 
   <!-- Background Base -->
-  <rect width="1280" height="780" fill="url(#bgGrad)"/>
+  <rect width="1440" height="820" fill="url(#bgGrad)"/>
 
-  <!-- Subtle Ambient Background Grid -->
-  <g stroke="#334155" stroke-opacity="0.12" stroke-width="1">
-    <line x1="0" y1="80" x2="1280" y2="80"/>
-    <line x1="0" y1="240" x2="1280" y2="240"/>
-    <line x1="0" y1="420" x2="1280" y2="420"/>
-    <line x1="0" y1="600" x2="1280" y2="600"/>
-    <line x1="280" y1="0" x2="280" y2="780"/>
-    <line x1="560" y1="0" x2="560" y2="780"/>
-    <line x1="920" y1="0" x2="920" y2="780"/>
+  <!-- Subtle Blueprint Grid -->
+  <g stroke="#1e293b" stroke-opacity="0.3" stroke-width="1">
+    <line x1="0" y1="80" x2="1440" y2="80"/>
+    <line x1="260" y1="80" x2="260" y2="820"/>
+    <line x1="520" y1="80" x2="520" y2="820"/>
   </g>
 
   <!-- ==================== HEADER ==================== -->
-  <g transform="translate(40, 24)">
+  <g transform="translate(45, 22)">
     <text x="0" y="24" fill="url(#titleGrad)" font-size="24" font-weight="800" letter-spacing="-0.5">TaskFlow DevOps Architecture</text>
-    <text x="0" y="44" fill="#94a3b8" font-size="12" font-weight="500">AWS Free Tier ($0/mo) | Infrastructure as Code | K3s Lightweight Kubernetes | GitOps CI/CD</text>
+    <text x="0" y="44" fill="#94a3b8" font-size="12" font-weight="600">AWS Free Tier • Infrastructure as Code • Docker Compose • Nginx • Observability Suite</text>
 
-    <!-- Top Status Badges -->
-    <g transform="translate(860, 2)">
-      <rect x="0" y="0" width="115" height="26" rx="13" fill="#1e293b" stroke="#ff9900" stroke-width="1.2"/>
-      <text x="57" y="17" fill="#ff9900" font-size="10" font-weight="700" text-anchor="middle">AWS FREE TIER</text>
+    <!-- Top Technology Badges -->
+    <g transform="translate(730, 6)">
+      <rect x="0" y="0" width="115" height="28" rx="14" fill="#1e293b" stroke="#ff9900" stroke-width="1.2"/>
+      
+  <svg x="10" y="6" width="16" height="16" viewBox="0 0 640 512">
+    <path d="M180.41 203.01c-.72 22.65 10.6 32.68 10.88 39.05a8.164 8.164 0 0 1-4.1 6.27l-12.8 8.96a10.66 10.66 0 0 1-5.63 1.92c-.43-.02-8.19 1.83-20.48-25.61a78.608 78.608 0 0 1-62.61 29.45c-16.28.89-60.4-9.24-58.13-56.21-1.59-38.28 34.06-62.06 70.93-60.05 7.1.02 21.6.37 46.99 6.27v-15.62c2.69-26.46-14.7-46.99-44.81-43.91-2.4.01-19.4-.5-45.84 10.11-7.36 3.38-8.3 2.82-10.75 2.82-7.41 0-4.36-21.48-2.94-24.2 5.21-6.4 35.86-18.35 65.94-18.18a76.857 76.857 0 0 1 55.69 17.28 70.285 70.285 0 0 1 17.67 52.36l-.01 69.29zM93.99 235.4c32.43-.47 46.16-19.97 49.29-30.47 2.46-10.05 2.05-16.41 2.05-27.4-9.67-2.32-23.59-4.85-39.56-4.87-15.15-1.14-42.82 5.63-41.74 32.26-1.24 16.79 11.12 31.4 29.96 30.48zm170.92 23.05c-7.86.72-11.52-4.86-12.68-10.37l-49.8-164.65c-.97-2.78-1.61-5.65-1.92-8.58a4.61 4.61 0 0 1 3.86-5.25c.24-.04-2.13 0 22.25 0 8.78-.88 11.64 6.03 12.55 10.37l35.72 140.83 33.16-140.83c.53-3.22 2.94-11.07 12.8-10.24h17.16c2.17-.18 11.11-.5 12.68 10.37l33.42 142.63L420.98 80.1c.48-2.18 2.72-11.37 12.68-10.37h19.72c.85-.13 6.15-.81 5.25 8.58-.43 1.85 3.41-10.66-52.75 169.9-1.15 5.51-4.82 11.09-12.68 10.37h-18.69c-10.94 1.15-12.51-9.66-12.68-10.75L328.67 110.7l-32.78 136.99c-.16 1.09-1.73 11.9-12.68 10.75h-18.3zm273.48 5.63c-5.88.01-33.92-.3-57.36-12.29a12.802 12.802 0 0 1-7.81-11.91v-10.75c0-8.45 6.2-6.9 8.83-5.89 10.04 4.06 16.48 7.14 28.81 9.6 36.65 7.53 52.77-2.3 56.72-4.48 13.15-7.81 14.19-25.68 5.25-34.95-10.48-8.79-15.48-9.12-53.13-21-4.64-1.29-43.7-13.61-43.79-52.36-.61-28.24 25.05-56.18 69.52-55.95 12.67-.01 46.43 4.13 55.57 15.62 1.35 2.09 2.02 4.55 1.92 7.04v10.11c0 4.44-1.62 6.66-4.87 6.66-7.71-.86-21.39-11.17-49.16-10.75-6.89-.36-39.89.91-38.41 24.97-.43 18.96 26.61 26.07 29.7 26.89 36.46 10.97 48.65 12.79 63.12 29.58 17.14 22.25 7.9 48.3 4.35 55.44-19.08 37.49-68.42 34.44-69.26 34.42zm40.2 104.86c-70.03 51.72-171.69 79.25-258.49 79.25A469.127 469.127 0 0 1 2.83 327.46c-6.53-5.89-.77-13.96 7.17-9.47a637.37 637.37 0 0 0 316.88 84.12 630.22 630.22 0 0 0 241.59-49.55c11.78-5 21.77 7.8 10.12 16.38zm29.19-33.29c-8.96-11.52-59.28-5.38-81.81-2.69-6.79.77-7.94-5.12-1.79-9.47 40.07-28.17 105.88-20.1 113.44-10.63 7.55 9.47-2.05 75.41-39.56 106.91-5.76 4.87-11.27 2.3-8.71-4.1 8.44-21.25 27.39-68.49 18.43-80.02z" fill="#ff9900"/>
+  </svg>
+      <text x="65" y="18" fill="#ff9900" font-size="10" font-weight="700" text-anchor="middle">AWS FREE</text>
 
-      <rect x="125" y="0" width="105" height="26" rx="13" fill="#1e293b" stroke="#326ce5" stroke-width="1.2"/>
-      <text x="177" y="17" fill="#60a5fa" font-size="10" font-weight="700" text-anchor="middle">K3s CLUSTER</text>
+      <rect x="125" y="0" width="125" height="28" rx="14" fill="#1e293b" stroke="#2496ed" stroke-width="1.2"/>
+      
+  <svg x="135" y="6" width="16" height="16" viewBox="0 0 24 24">
+    <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z" fill="#2496ed"/>
+  </svg>
+      <text x="195" y="18" fill="#38bdf8" font-size="10" font-weight="700" text-anchor="middle">COMPOSE v2</text>
 
-      <rect x="240" y="0" width="140" height="26" rx="13" fill="#1e293b" stroke="#34d399" stroke-width="1.2"/>
-      <text x="310" y="17" fill="#34d399" font-size="10" font-weight="700" text-anchor="middle">ZERO DOWNTIME</text>
+      <rect x="260" y="0" width="110" height="28" rx="14" fill="#1e293b" stroke="#009639" stroke-width="1.2"/>
+      
+  <svg x="270" y="6" width="16" height="16" viewBox="0 0 24 24">
+    <path d="M12 0L1.605 6v12L12 24l10.395-6V6L12 0zm6 16.59c0 .705-.646 1.29-1.529 1.29-.631 0-1.351-.255-1.801-.81l-6-7.141v6.66c0 .721-.57 1.29-1.274 1.29H7.32c-.721 0-1.29-.6-1.29-1.29V7.41c0-.705.63-1.29 1.5-1.29.646 0 1.38.255 1.83.81l5.97 7.141V7.41c0-.721.6-1.29 1.29-1.29h.075c.72 0 1.29.6 1.29 1.29v9.18H18z" fill="#009639"/>
+  </svg>
+      <text x="325" y="18" fill="#4ade80" font-size="10" font-weight="700" text-anchor="middle">NGINX :80</text>
+
+      <rect x="380" y="0" width="155" height="28" rx="14" fill="#1e293b" stroke="#e6522c" stroke-width="1.2"/>
+      
+  <svg x="390" y="6" width="16" height="16" viewBox="0 0 24 24">
+    <path d="M12 0C5.373 0 0 5.372 0 12c0 6.627 5.373 12 12 12s12-5.373 12-12c0-6.628-5.373-12-12-12zm0 22.46c-1.885 0-3.414-1.26-3.414-2.814h6.828c0 1.553-1.528 2.813-3.414 2.813zm5.64-3.745H6.36v-2.046h11.28v2.046zm-.04-3.098H6.391c-.037-.043-.075-.086-.111-.13-1.155-1.401-1.427-2.133-1.69-2.879-.005-.025 1.4.287 2.395.511 0 0 .513.119 1.262.255-.72-.843-1.147-1.915-1.147-3.01 0-2.406 1.845-4.508 1.18-6.207.648.053 1.34 1.367 1.387 3.422.689-.951.977-2.69.977-3.755 0-1.103.727-2.385 1.454-2.429-.648 1.069.168 1.984.894 4.256.272.854.237 2.29.447 3.201.07-1.892.395-4.652 1.595-5.605-.529 1.2.079 2.702.494 3.424.671 1.164 1.078 2.047 1.078 3.716a4.642 4.642 0 01-1.11 2.996c.792-.149 1.34-.283 1.34-.283l2.573-.502s-.374 1.538-1.81 3.019z" fill="#e6522c"/>
+  </svg>
+      <text x="465" y="18" fill="#fb7185" font-size="10" font-weight="700" text-anchor="middle">OBSERVABILITY</text>
     </g>
   </g>
 
-  <!-- ==================== ZONE 1: CI/CD & REGISTRY (LEFT) ==================== -->
-  <g transform="translate(40, 90)">
-    <rect x="0" y="0" width="225" height="660" rx="16" fill="url(#gitGrad)" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.6" filter="url(#cardShadow)"/>
-    
-    <!-- Zone Label -->
-    <g transform="translate(18, 20)">
-      <text x="0" y="14" fill="#a5b4fc" font-size="13" font-weight="700" letter-spacing="0.5">CI/CD &amp; REGISTRY</text>
-    </g>
+  <!-- ==================== COLUMN 1: CI/CD & REGISTRY ==================== -->
+  <g transform="translate(45, 90)">
+    <rect x="0" y="0" width="195" height="695" rx="16" fill="#0d1424" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.6" filter="url(#shadow)"/>
+    <text x="97" y="32" fill="#818cf8" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1">1. CI/CD &amp; OCI</text>
 
-    <!-- Card 1: GitHub -->
+    <!-- Card: GitHub -->
     <g transform="translate(16, 50)">
-      <rect x="0" y="0" width="193" height="135" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1.2"/>
+      <rect x="0" y="0" width="163" height="150" rx="14" fill="#131b2e" stroke="#334155" stroke-width="1.2"/>
+      <circle cx="81" cy="52" r="32" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
       
-      <!-- Icon Container -->
-      <circle cx="96" cy="42" r="26" fill="#1e293b" stroke="#475569" stroke-width="1"/>
-      <g transform="translate(82, 28) scale(1.15)">
-        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="#ffffff"/>
-      </g>
-
-      <text x="96" y="88" fill="#f8fafc" font-size="13" font-weight="700" text-anchor="middle">GitHub</text>
-      <text x="96" y="104" fill="#94a3b8" font-size="10" text-anchor="middle">Source Repository</text>
-
-      <!-- Pill -->
-      <rect x="52" y="112" width="88" height="16" rx="8" fill="#1e1b4b"/>
-      <text x="96" y="123" fill="#818cf8" font-size="9" font-weight="600" text-anchor="middle">git push [main]</text>
+  <svg x="57" y="28" width="48" height="48" viewBox="0 0 24 24">
+    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="#ffffff"/>
+  </svg>
+      <text x="81" y="108" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle">GitHub</text>
+      <rect x="31" y="120" width="100" height="20" rx="10" fill="#1e1b4b"/>
+      <text x="81" y="134" fill="#a5b4fc" font-size="10" font-weight="700" text-anchor="middle">main / develop</text>
     </g>
 
     <!-- Arrow down -->
-    <path d="M 112 185 L 112 215" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowPurple)"/>
+    <path d="M 97 205 L 97 235" stroke="#6366f1" stroke-width="2.5" marker-end="url(#arrPurple)"/>
 
-    <!-- Card 2: GitHub Actions -->
-    <g transform="translate(16, 220)">
-      <rect x="0" y="0" width="193" height="155" rx="12" fill="#0f172a" stroke="#6366f1" stroke-width="1.2"/>
+    <!-- Card: GitHub Actions -->
+    <g transform="translate(16, 240)">
+      <rect x="0" y="0" width="163" height="160" rx="14" fill="#131b2e" stroke="#2088ff" stroke-width="1.5" filter="url(#glowCyan)"/>
+      <circle cx="81" cy="52" r="32" fill="#082f49" stroke="#2088ff" stroke-width="1.5"/>
       
-      <circle cx="96" cy="44" r="26" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.2" filter="url(#iconGlowBlue)"/>
-      <g transform="translate(82, 30) scale(1.15)">
-        <path d="M10.984 13.836a.5.5 0 0 1-.353-.146l-.745-.743a.5.5 0 1 1 .706-.708l.392.391 1.181-1.18a.5.5 0 0 1 .708.707l-1.535 1.533a.504.504 0 0 1-.354.146zm9.353-.147l1.534-1.532a.5.5 0 0 0-.707-.707l-1.181 1.18-.392-.391a.5.5 0 1 0-.706.708l.746.743a.497.497 0 0 0 .706-.001zM4.527 7.452l2.557-1.585A1 1 0 0 0 7.09 4.17L4.533 2.56A1 1 0 0 0 3 3.406v3.196a1.001 1.001 0 0 0 1.527.85zm2.03-2.436L4 6.602V3.406l2.557 1.61zM24 12.5c0 1.93-1.57 3.5-3.5 3.5a3.503 3.503 0 0 1-3.46-3h-2.08a3.503 3.503 0 0 1-3.46 3 3.502 3.502 0 0 1-3.46-3h-.558c-.972 0-1.85-.399-2.482-1.042V17c0 1.654 1.346 3 3 3h.04c.244-1.693 1.7-3 3.46-3 1.93 0 3.5 1.57 3.5 3.5S13.43 24 11.5 24a3.502 3.502 0 0 1-3.46-3H8c-2.206 0-4-1.794-4-4V9.899A5.008 5.008 0 0 1 0 5c0-2.757 2.243-5 5-5s5 2.243 5 5a5.005 5.005 0 0 1-4.952 4.998A2.482 2.482 0 0 0 7.482 12h.558c.244-1.693 1.7-3 3.46-3a3.502 3.502 0 0 1 3.46 3h2.08a3.503 3.503 0 0 1 3.46-3c1.93 0 3.5 1.57 3.5 3.5zm-15 8c0 1.378 1.122 2.5 2.5 2.5s2.5-1.122 2.5-2.5-1.122-2.5-2.5-2.5S9 19.122 9 20.5zM5 9c2.206 0 4-1.794 4-4S7.206 1 5 1 1 2.794 1 5s1.794 4 4 4zm9 3.5c0-1.378-1.122-2.5-2.5-2.5S9 11.122 9 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5zm9 0c0-1.378-1.122-2.5-2.5-2.5S18 11.122 18 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5zm-13 8a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0zm2 0a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0zm12 0c0 1.93-1.57 3.5-3.5 3.5a3.503 3.503 0 0 1-3.46-3.002c-.007.001-.013.005-.021.005l-.506.017h-.017a.5.5 0 0 1-.016-.999l.506-.017c.018-.002.035.006.052.007A3.503 3.503 0 0 1 20.5 17c1.93 0 3.5 1.57 3.5 3.5zm-1 0c0-1.378-1.122-2.5-2.5-2.5S18 19.122 18 20.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5z" fill="#2088ff"/>
-      </g>
-
-      <text x="96" y="92" fill="#f8fafc" font-size="13" font-weight="700" text-anchor="middle">GitHub Actions</text>
-      <text x="96" y="108" fill="#94a3b8" font-size="10" text-anchor="middle">Automated CI/CD</text>
-
-      <!-- Badges -->
-      <rect x="25" y="118" width="65" height="18" rx="4" fill="#1e293b"/>
-      <text x="57" y="130" fill="#38bdf8" font-size="9" font-weight="600" text-anchor="middle">Lint &amp; Test</text>
-      <rect x="98" y="118" width="70" height="18" rx="4" fill="#1e293b"/>
-      <text x="133" y="130" fill="#c084fc" font-size="9" font-weight="600" text-anchor="middle">Buildx Push</text>
-
-      <rect x="42" y="140" width="110" height="18" rx="4" fill="#064e3b"/>
-      <text x="97" y="152" fill="#34d399" font-size="9" font-weight="600" text-anchor="middle">SSH Rolling Deploy</text>
+  <svg x="57" y="28" width="48" height="48" viewBox="0 0 24 24">
+    <path d="M10.984 13.836a.5.5 0 0 1-.353-.146l-.745-.743a.5.5 0 1 1 .706-.708l.392.391 1.181-1.18a.5.5 0 0 1 .708.707l-1.535 1.533a.504.504 0 0 1-.354.146zm9.353-.147l1.534-1.532a.5.5 0 0 0-.707-.707l-1.181 1.18-.392-.391a.5.5 0 1 0-.706.708l.746.743a.497.497 0 0 0 .706-.001zM4.527 7.452l2.557-1.585A1 1 0 0 0 7.09 4.17L4.533 2.56A1 1 0 0 0 3 3.406v3.196a1.001 1.001 0 0 0 1.527.85zm2.03-2.436L4 6.602V3.406l2.557 1.61zM24 12.5c0 1.93-1.57 3.5-3.5 3.5a3.503 3.503 0 0 1-3.46-3h-2.08a3.503 3.503 0 0 1-3.46 3 3.502 3.502 0 0 1-3.46-3h-.558c-.972 0-1.85-.399-2.482-1.042V17c0 1.654 1.346 3 3 3h.04c.244-1.693 1.7-3 3.46-3 1.93 0 3.5 1.57 3.5 3.5S13.43 24 11.5 24a3.502 3.502 0 0 1-3.46-3H8c-2.206 0-4-1.794-4-4V9.899A5.008 5.008 0 0 1 0 5c0-2.757 2.243-5 5-5s5 2.243 5 5a5.005 5.005 0 0 1-4.952 4.998A2.482 2.482 0 0 0 7.482 12h.558c.244-1.693 1.7-3 3.46-3a3.502 3.502 0 0 1 3.46 3h2.08a3.503 3.503 0 0 1 3.46-3c1.93 0 3.5 1.57 3.5 3.5zm-15 8c0 1.378 1.122 2.5 2.5 2.5s2.5-1.122 2.5-2.5-1.122-2.5-2.5-2.5S9 19.122 9 20.5zM5 9c2.206 0 4-1.794 4-4S7.206 1 5 1 1 2.794 1 5s1.794 4 4 4zm9 3.5c0-1.378-1.122-2.5-2.5-2.5S9 11.122 9 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5zm9 0c0-1.378-1.122-2.5-2.5-2.5S18 11.122 18 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5zm-13 8a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0zm2 0a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0zm12 0c0 1.93-1.57 3.5-3.5 3.5a3.503 3.503 0 0 1-3.46-3.002c-.007.001-.013.005-.021.005l-.506.017h-.017a.5.5 0 0 1-.016-.999l.506-.017c.018-.002.035.006.052.007A3.503 3.503 0 0 1 20.5 17c1.93 0 3.5 1.57 3.5 3.5zm-1 0c0-1.378-1.122-2.5-2.5-2.5S18 19.122 18 20.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5z" fill="#2088ff"/>
+  </svg>
+      <text x="81" y="108" fill="#f8fafc" font-size="13" font-weight="700" text-anchor="middle">GitHub Actions</text>
+      <rect x="26" y="124" width="110" height="20" rx="10" fill="#0c4a6e"/>
+      <text x="81" y="138" fill="#38bdf8" font-size="10" font-weight="700" text-anchor="middle">Buildx &amp; Verify</text>
     </g>
 
     <!-- Arrow down -->
-    <path d="M 112 375 L 112 405" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    <path d="M 97 405 L 97 435" stroke="#0284c7" stroke-width="2.5" marker-end="url(#arrCyan)"/>
 
-    <!-- Card 3: GHCR (Docker) -->
-    <g transform="translate(16, 410)">
-      <rect x="0" y="0" width="193" height="145" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.2"/>
+    <!-- Card: GHCR -->
+    <g transform="translate(16, 440)">
+      <rect x="0" y="0" width="163" height="160" rx="14" fill="#131b2e" stroke="#0284c7" stroke-width="1.2"/>
+      <circle cx="81" cy="52" r="32" fill="#0c4a6e" stroke="#0284c7" stroke-width="1.5"/>
       
-      <circle cx="96" cy="42" r="26" fill="#0c4a6e" stroke="#0284c7" stroke-width="1.2" filter="url(#iconGlowBlue)"/>
-      <g transform="translate(82, 28) scale(1.15)">
-        <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z" fill="#0db7ed"/>
-      </g>
+  <svg x="57" y="28" width="48" height="48" viewBox="0 0 24 24">
+    <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z" fill="#2496ed"/>
+  </svg>
+      <text x="81" y="108" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle">GHCR Registry</text>
+      <rect x="26" y="124" width="110" height="20" rx="10" fill="#082f49"/>
+      <text x="81" y="138" fill="#7dd3fc" font-size="10" font-family="monospace" text-anchor="middle">ghcr.io Images</text>
+    </g>
 
-      <text x="96" y="88" fill="#f8fafc" font-size="13" font-weight="700" text-anchor="middle">GHCR Registry</text>
-      <text x="96" y="104" fill="#94a3b8" font-size="10" text-anchor="middle">Multi-Stage Images</text>
+    <!-- Arrow down to SSM dispatch -->
+    <path d="M 97 605 L 97 625" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrGreen)"/>
 
-      <!-- Image Tags -->
-      <rect x="18" y="114" width="75" height="18" rx="4" fill="#1e293b"/>
-      <text x="55" y="126" fill="#7dd3fc" font-size="9" font-family="monospace" text-anchor="middle">api:latest</text>
-      <rect x="100" y="114" width="75" height="18" rx="4" fill="#1e293b"/>
-      <text x="137" y="126" fill="#7dd3fc" font-size="9" font-family="monospace" text-anchor="middle">web:latest</text>
+    <!-- Mini Card: SSM Dispatch -->
+    <g transform="translate(16, 630)">
+      <rect x="0" y="0" width="163" height="48" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.2"/>
+      
+  <svg x="12" y="12" width="24" height="24" viewBox="0 0 576 512">
+    <path d="M9.4 86.6C-3.1 74.1-3.1 53.9 9.4 41.4s32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L178.7 256 9.4 86.6zM256 416l288 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-288 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z" fill="#34d399"/>
+  </svg>
+      <text x="44" y="24" fill="#34d399" font-size="11" font-weight="800">AWS SSM</text>
+      <text x="44" y="38" fill="#a7f3d0" font-size="9" font-weight="600">Zero-Touch CD</text>
     </g>
   </g>
 
-  <!-- ==================== ZONE 2: INFRASTRUCTURE AS CODE (MIDDLE) ==================== -->
-  <g transform="translate(290, 90)">
-    <rect x="0" y="0" width="225" height="660" rx="16" fill="url(#iacGrad)" stroke="#a855f7" stroke-width="1.2" stroke-opacity="0.6" filter="url(#cardShadow)"/>
-    
-    <g transform="translate(18, 20)">
-      <text x="0" y="14" fill="#d8b4fe" font-size="13" font-weight="700" letter-spacing="0.5">IaC &amp; PROVISIONING</text>
-    </g>
+  <!-- ==================== COLUMN 2: IaC & CONFIGURATION ==================== -->
+  <g transform="translate(265, 90)">
+    <rect x="0" y="0" width="195" height="695" rx="16" fill="#0d1424" stroke="#a855f7" stroke-width="1.2" stroke-opacity="0.6" filter="url(#shadow)"/>
+    <text x="97" y="32" fill="#c084fc" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1">2. IaC &amp; CONFIG</text>
 
-    <!-- Card 1: Terraform -->
+    <!-- Card: Terraform -->
     <g transform="translate(16, 50)">
-      <rect x="0" y="0" width="193" height="235" rx="12" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.2"/>
+      <rect x="0" y="0" width="163" height="180" rx="14" fill="#131b2e" stroke="#844fba" stroke-width="1.5" filter="url(#glowPurple)"/>
+      <circle cx="81" cy="55" r="34" fill="#2e1065" stroke="#844fba" stroke-width="1.5"/>
       
-      <circle cx="96" cy="46" r="26" fill="#2e1065" stroke="#8b5cf6" stroke-width="1.2" filter="url(#iconGlowPurple)"/>
-      <g transform="translate(82, 32) scale(1.15)">
-        <path d="M1.44 0v7.575l6.561 3.79V3.787zm21.12 4.227l-6.561 3.791v7.574l6.56-3.787zM8.72 4.23v7.575l6.561 3.787V8.018zm0 8.405v7.575L15.28 24v-7.578z" fill="#a855f7"/>
-      </g>
-
-      <text x="96" y="94" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle">Terraform</text>
-      <text x="96" y="110" fill="#94a3b8" font-size="10" text-anchor="middle">AWS Cloud IaC</text>
-
-      <!-- Provisioned Badges -->
-      <g transform="translate(16, 122)">
-        <rect x="0" y="0" width="160" height="20" rx="4" fill="#1e293b"/>
-        <text x="80" y="14" fill="#cbd5e1" font-size="9" font-weight="600" text-anchor="middle">VPC &amp; Subnet (10.0.0.0/16)</text>
-
-        <rect x="0" y="26" width="160" height="20" rx="4" fill="#1e293b"/>
-        <text x="80" y="40" fill="#cbd5e1" font-size="9" font-weight="600" text-anchor="middle">Security Groups (22, 80)</text>
-
-        <rect x="0" y="52" width="160" height="20" rx="4" fill="#1e293b"/>
-        <text x="80" y="66" fill="#cbd5e1" font-size="9" font-weight="600" text-anchor="middle">EC2 t2.micro + 30GB gp3</text>
-
-        <rect x="0" y="78" width="160" height="20" rx="4" fill="#065f46"/>
-        <text x="80" y="92" fill="#6ee7b7" font-size="9" font-weight="700" text-anchor="middle">Elastic IP (Static IP)</text>
-      </g>
+  <svg x="56" y="30" width="50" height="50" viewBox="0 0 24 24">
+    <path d="M1.44 0v7.575l6.561 3.79V3.787zm21.12 4.227l-6.561 3.791v7.574l6.56-3.787zM8.72 4.23v7.575l6.561 3.787V8.018zm0 8.405v7.575L15.28 24v-7.578z" fill="#844fba"/>
+  </svg>
+      <text x="81" y="115" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle">Terraform</text>
+      <rect x="21" y="130" width="120" height="20" rx="10" fill="#3b0764"/>
+      <text x="81" y="144" fill="#d8b4fe" font-size="10" font-weight="700" text-anchor="middle">VPC &amp; Security Group</text>
+      <rect x="31" y="152" width="100" height="16" rx="8" fill="#1e1b4b"/>
+      <text x="81" y="164" fill="#a855f7" font-size="9" font-weight="700" text-anchor="middle">Elastic IP &amp; EC2</text>
     </g>
 
-    <!-- Arrow from Terraform to Ansible -->
-    <path d="M 112 285 L 112 325" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowPurple)"/>
-    <rect x="62" y="295" width="100" height="16" rx="4" fill="#1e1b4b"/>
-    <text x="112" y="306" fill="#e9d5ff" font-size="8" font-family="monospace" text-anchor="middle">inventory.ini</text>
+    <!-- Arrow down -->
+    <path d="M 97 235 L 97 265" stroke="#a855f7" stroke-width="2.5" marker-end="url(#arrPurple)"/>
 
-    <!-- Card 2: Ansible -->
-    <g transform="translate(16, 330)">
-      <rect x="0" y="0" width="193" height="225" rx="12" fill="#0f172a" stroke="#ef4444" stroke-width="1.2"/>
+    <!-- Card: Ansible -->
+    <g transform="translate(16, 270)">
+      <rect x="0" y="0" width="163" height="180" rx="14" fill="#131b2e" stroke="#ee0000" stroke-width="1.2"/>
+      <circle cx="81" cy="55" r="34" fill="#450a0a" stroke="#ee0000" stroke-width="1.5"/>
       
-      <circle cx="96" cy="46" r="26" fill="#450a0a" stroke="#ef4444" stroke-width="1.2"/>
-      <g transform="translate(82, 32) scale(1.15)">
-        <path d="M10.617 11.473l4.686 3.695-3.102-7.662zM12 0C5.371 0 0 5.371 0 12s5.371 12 12 12 12-5.371 12-12S18.629 0 12 0zm5.797 17.305c-.011.471-.403.842-.875.83-.236 0-.416-.09-.664-.293l-6.19-5-2.079 5.203H6.191L11.438 5.44c.124-.314.427-.52.764-.506.326-.014.63.189.742.506l4.774 11.494c.045.111.08.234.08.348-.001.009-.001.009-.001.023z" fill="#ef4444"/>
-      </g>
+  <svg x="56" y="30" width="50" height="50" viewBox="0 0 24 24">
+    <path d="M10.617 11.473l4.686 3.695-3.102-7.662zM12 0C5.371 0 0 5.371 0 12s5.371 12 12 12 12-5.371 12-12S18.629 0 12 0zm5.797 17.305c-.011.471-.403.842-.875.83-.236 0-.416-.09-.664-.293l-6.19-5-2.079 5.203H6.191L11.438 5.44c.124-.314.427-.52.764-.506.326-.014.63.189.742.506l4.774 11.494c.045.111.08.234.08.348-.001.009-.001.009-.001.023z" fill="#ee0000"/>
+  </svg>
+      <text x="81" y="115" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle">Ansible</text>
+      <rect x="21" y="130" width="120" height="20" rx="10" fill="#450a0a"/>
+      <text x="81" y="144" fill="#fca5a5" font-size="10" font-weight="700" text-anchor="middle">Roles: common / docker</text>
+      <rect x="26" y="152" width="110" height="16" rx="8" fill="#1e1b4b"/>
+      <text x="81" y="164" fill="#ef4444" font-size="9" font-weight="700" text-anchor="middle">Host Hardening</text>
+    </g>
 
-      <text x="96" y="94" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle">Ansible</text>
-      <text x="96" y="110" fill="#94a3b8" font-size="10" text-anchor="middle">Node Configuration</text>
+    <!-- Arrow down -->
+    <path d="M 97 455 L 97 485" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#arrOrange)"/>
 
-      <!-- Key Ansible Roles -->
-      <g transform="translate(16, 122)">
-        <rect x="0" y="0" width="160" height="20" rx="4" fill="#450a0a" stroke="#ef4444" stroke-width="0.8"/>
-        <text x="80" y="14" fill="#fca5a5" font-size="9" font-weight="700" text-anchor="middle">2 GB Swap Space (No OOM)</text>
-
-        <rect x="0" y="26" width="160" height="20" rx="4" fill="#1e293b"/>
-        <text x="80" y="40" fill="#cbd5e1" font-size="9" font-weight="600" text-anchor="middle">sysctl vm.swappiness=10</text>
-
-        <rect x="0" y="52" width="160" height="20" rx="4" fill="#1e293b"/>
-        <text x="80" y="66" fill="#cbd5e1" font-size="9" font-weight="600" text-anchor="middle">IP Forwarding Enabled</text>
-
-        <rect x="0" y="78" width="160" height="20" rx="4" fill="#1e293b"/>
-        <text x="80" y="92" fill="#60a5fa" font-size="9" font-weight="700" text-anchor="middle">Install K3s &amp; Traefik</text>
-      </g>
+    <!-- Card: Cloud-Init & Memory Guard -->
+    <g transform="translate(16, 490)">
+      <rect x="0" y="0" width="163" height="190" rx="14" fill="#131b2e" stroke="#f59e0b" stroke-width="1.2"/>
+      <circle cx="81" cy="55" r="34" fill="#451a03" stroke="#f59e0b" stroke-width="1.5"/>
+      
+  <svg x="56" y="30" width="50" height="50" viewBox="0 0 576 512">
+    <path d="M64 64C28.7 64 0 92.7 0 128l0 7.4c0 6.8 4.4 12.6 10.1 16.3C23.3 160.3 32 175.1 32 192s-8.7 31.7-21.9 40.3C4.4 236 0 241.8 0 248.6L0 320l576 0 0-71.4c0-6.8-4.4-12.6-10.1-16.3C552.7 223.7 544 208.9 544 192s8.7-31.7 21.9-40.3c5.7-3.7 10.1-9.5 10.1-16.3l0-7.4c0-35.3-28.7-64-64-64L64 64zM576 352L0 352l0 64c0 17.7 14.3 32 32 32l48 0 0-32c0-8.8 7.2-16 16-16s16 7.2 16 16l0 32 96 0 0-32c0-8.8 7.2-16 16-16s16 7.2 16 16l0 32 96 0 0-32c0-8.8 7.2-16 16-16s16 7.2 16 16l0 32 96 0 0-32c0-8.8 7.2-16 16-16s16 7.2 16 16l0 32 48 0c17.7 0 32-14.3 32-32l0-64zM192 160l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32s32 14.3 32 32zm128 0l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32s32 14.3 32 32zm128 0l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32s32 14.3 32 32z" fill="#fbbf24"/>
+  </svg>
+      <text x="81" y="115" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle">Memory Guard</text>
+      <rect x="21" y="130" width="120" height="22" rx="11" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+      <text x="81" y="145" fill="#34d399" font-size="10" font-weight="800" text-anchor="middle">2 GB SWAP FILE</text>
+      <rect x="26" y="156" width="110" height="18" rx="9" fill="#1e293b"/>
+      <text x="81" y="169" fill="#cbd5e1" font-size="9.5" font-weight="600" text-anchor="middle">vm.swappiness = 10</text>
     </g>
   </g>
 
-  <!-- ==================== ZONE 3: AWS CLOUD & KUBERNETES RUNTIME ==================== -->
-  <g transform="translate(540, 90)">
-    <!-- AWS Outer Box -->
-    <rect x="0" y="0" width="700" height="660" rx="16" fill="url(#awsGrad)" stroke="#ff9900" stroke-width="1.8" filter="url(#cardShadow)"/>
+  <!-- ==================== COLUMN 3: AWS CLOUD HOST (RIGHT) ==================== -->
+  <g transform="translate(485, 90)">
+    <!-- Cloud Outer Border -->
+    <rect x="0" y="0" width="910" height="695" rx="18" fill="#0a0f1d" stroke="#ff9900" stroke-width="1.5" filter="url(#shadow)"/>
 
-    <!-- AWS Header with Icon -->
+    <!-- Host Header Banner -->
     <g transform="translate(24, 18)">
-      <g transform="translate(0, 0) scale(0.065)">
-        <path d="M180.41 203.01c-.72 22.65 10.6 32.68 10.88 39.05a8.164 8.164 0 0 1-4.1 6.27l-12.8 8.96a10.66 10.66 0 0 1-5.63 1.92c-.43-.02-8.19 1.83-20.48-25.61a78.608 78.608 0 0 1-62.61 29.45c-16.28.89-60.4-9.24-58.13-56.21-1.59-38.28 34.06-62.06 70.93-60.05 7.1.02 21.6.37 46.99 6.27v-15.62c2.69-26.46-14.7-46.99-44.81-43.91-2.4.01-19.4-.5-45.84 10.11-7.36 3.38-8.3 2.82-10.75 2.82-7.41 0-4.36-21.48-2.94-24.2 5.21-6.4 35.86-18.35 65.94-18.18a76.857 76.857 0 0 1 55.69 17.28 70.285 70.285 0 0 1 17.67 52.36l-.01 69.29zM93.99 235.4c32.43-.47 46.16-19.97 49.29-30.47 2.46-10.05 2.05-16.41 2.05-27.4-9.67-2.32-23.59-4.85-39.56-4.87-15.15-1.14-42.82 5.63-41.74 32.26-1.24 16.79 11.12 31.4 29.96 30.48zm170.92 23.05c-7.86.72-11.52-4.86-12.68-10.37l-49.8-164.65c-.97-2.78-1.61-5.65-1.92-8.58a4.61 4.61 0 0 1 3.86-5.25c.24-.04-2.13 0 22.25 0 8.78-.88 11.64 6.03 12.55 10.37l35.72 140.83 33.16-140.83c.53-3.22 2.94-11.07 12.8-10.24h17.16c2.17-.18 11.11-.5 12.68 10.37l33.42 142.63L420.98 80.1c.48-2.18 2.72-11.37 12.68-10.37h19.72c.85-.13 6.15-.81 5.25 8.58-.43 1.85 3.41-10.66-52.75 169.9-1.15 5.51-4.82 11.09-12.68 10.37h-18.69c-10.94 1.15-12.51-9.66-12.68-10.75L328.67 110.7l-32.78 136.99c-.16 1.09-1.73 11.9-12.68 10.75h-18.3zm273.48 5.63c-5.88.01-33.92-.3-57.36-12.29a12.802 12.802 0 0 1-7.81-11.91v-10.75c0-8.45 6.2-6.9 8.83-5.89 10.04 4.06 16.48 7.14 28.81 9.6 36.65 7.53 52.77-2.3 56.72-4.48 13.15-7.81 14.19-25.68 5.25-34.95-10.48-8.79-15.48-9.12-53.13-21-4.64-1.29-43.7-13.61-43.79-52.36-.61-28.24 25.05-56.18 69.52-55.95 12.67-.01 46.43 4.13 55.57 15.62 1.35 2.09 2.02 4.55 1.92 7.04v10.11c0 4.44-1.62 6.66-4.87 6.66-7.71-.86-21.39-11.17-49.16-10.75-6.89-.36-39.89.91-38.41 24.97-.43 18.96 26.61 26.07 29.7 26.89 36.46 10.97 48.65 12.79 63.12 29.58 17.14 22.25 7.9 48.3 4.35 55.44-19.08 37.49-68.42 34.44-69.26 34.42zm40.2 104.86c-70.03 51.72-171.69 79.25-258.49 79.25A469.127 469.127 0 0 1 2.83 327.46c-6.53-5.89-.77-13.96 7.17-9.47a637.37 637.37 0 0 0 316.88 84.12 630.22 630.22 0 0 0 241.59-49.55c11.78-5 21.77 7.8 10.12 16.38zm29.19-33.29c-8.96-11.52-59.28-5.38-81.81-2.69-6.79.77-7.94-5.12-1.79-9.47 40.07-28.17 105.88-20.1 113.44-10.63 7.55 9.47-2.05 75.41-39.56 106.91-5.76 4.87-11.27 2.3-8.71-4.1 8.44-21.25 27.39-68.49 18.43-80.02z" fill="#ff9900" filter="url(#iconGlowOrange)"/>
-      </g>
-      <text x="50" y="24" fill="#fb923c" font-size="15" font-weight="800">AWS Cloud (Free Tier)</text>
       
-      <!-- Network Spec Badge -->
-      <g transform="translate(370, 8)">
-        <rect x="0" y="0" width="280" height="22" rx="6" fill="#1e293b" stroke="#475569" stroke-width="0.8"/>
-        <text x="140" y="15" fill="#f8fafc" font-size="9" font-weight="600" text-anchor="middle">VPC: 10.0.0.0/16 | Elastic IP | Ports: 22, 80</text>
+  <svg x="0" y="-2" width="28" height="28" viewBox="0 0 640 512">
+    <path d="M180.41 203.01c-.72 22.65 10.6 32.68 10.88 39.05a8.164 8.164 0 0 1-4.1 6.27l-12.8 8.96a10.66 10.66 0 0 1-5.63 1.92c-.43-.02-8.19 1.83-20.48-25.61a78.608 78.608 0 0 1-62.61 29.45c-16.28.89-60.4-9.24-58.13-56.21-1.59-38.28 34.06-62.06 70.93-60.05 7.1.02 21.6.37 46.99 6.27v-15.62c2.69-26.46-14.7-46.99-44.81-43.91-2.4.01-19.4-.5-45.84 10.11-7.36 3.38-8.3 2.82-10.75 2.82-7.41 0-4.36-21.48-2.94-24.2 5.21-6.4 35.86-18.35 65.94-18.18a76.857 76.857 0 0 1 55.69 17.28 70.285 70.285 0 0 1 17.67 52.36l-.01 69.29zM93.99 235.4c32.43-.47 46.16-19.97 49.29-30.47 2.46-10.05 2.05-16.41 2.05-27.4-9.67-2.32-23.59-4.85-39.56-4.87-15.15-1.14-42.82 5.63-41.74 32.26-1.24 16.79 11.12 31.4 29.96 30.48zm170.92 23.05c-7.86.72-11.52-4.86-12.68-10.37l-49.8-164.65c-.97-2.78-1.61-5.65-1.92-8.58a4.61 4.61 0 0 1 3.86-5.25c.24-.04-2.13 0 22.25 0 8.78-.88 11.64 6.03 12.55 10.37l35.72 140.83 33.16-140.83c.53-3.22 2.94-11.07 12.8-10.24h17.16c2.17-.18 11.11-.5 12.68 10.37l33.42 142.63L420.98 80.1c.48-2.18 2.72-11.37 12.68-10.37h19.72c.85-.13 6.15-.81 5.25 8.58-.43 1.85 3.41-10.66-52.75 169.9-1.15 5.51-4.82 11.09-12.68 10.37h-18.69c-10.94 1.15-12.51-9.66-12.68-10.75L328.67 110.7l-32.78 136.99c-.16 1.09-1.73 11.9-12.68 10.75h-18.3zm273.48 5.63c-5.88.01-33.92-.3-57.36-12.29a12.802 12.802 0 0 1-7.81-11.91v-10.75c0-8.45 6.2-6.9 8.83-5.89 10.04 4.06 16.48 7.14 28.81 9.6 36.65 7.53 52.77-2.3 56.72-4.48 13.15-7.81 14.19-25.68 5.25-34.95-10.48-8.79-15.48-9.12-53.13-21-4.64-1.29-43.7-13.61-43.79-52.36-.61-28.24 25.05-56.18 69.52-55.95 12.67-.01 46.43 4.13 55.57 15.62 1.35 2.09 2.02 4.55 1.92 7.04v10.11c0 4.44-1.62 6.66-4.87 6.66-7.71-.86-21.39-11.17-49.16-10.75-6.89-.36-39.89.91-38.41 24.97-.43 18.96 26.61 26.07 29.7 26.89 36.46 10.97 48.65 12.79 63.12 29.58 17.14 22.25 7.9 48.3 4.35 55.44-19.08 37.49-68.42 34.44-69.26 34.42zm40.2 104.86c-70.03 51.72-171.69 79.25-258.49 79.25A469.127 469.127 0 0 1 2.83 327.46c-6.53-5.89-.77-13.96 7.17-9.47a637.37 637.37 0 0 0 316.88 84.12 630.22 630.22 0 0 0 241.59-49.55c11.78-5 21.77 7.8 10.12 16.38zm29.19-33.29c-8.96-11.52-59.28-5.38-81.81-2.69-6.79.77-7.94-5.12-1.79-9.47 40.07-28.17 105.88-20.1 113.44-10.63 7.55 9.47-2.05 75.41-39.56 106.91-5.76 4.87-11.27 2.3-8.71-4.1 8.44-21.25 27.39-68.49 18.43-80.02z" fill="#ff9900"/>
+  </svg>
+      <text x="40" y="18" fill="#ff9900" font-size="15" font-weight="800">AWS CLOUD (us-east-1) • EC2 t3.micro</text>
+
+      
+  <svg x="350" y="0" width="20" height="20" viewBox="0 0 24 24">
+    <path d="M17.61.455a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zM12.92.8C8.923.777 5.137 2.941 3.148 6.451a4.5 4.5 0 0 1 .26-.007 4.92 4.92 0 0 1 2.585.737A8.316 8.316 0 0 1 12.688 3.6 4.944 4.944 0 0 1 13.723.834 11.008 11.008 0 0 0 12.92.8zm9.226 4.994a4.915 4.915 0 0 1-1.918 2.246 8.36 8.36 0 0 1-.273 8.303 4.89 4.89 0 0 1 1.632 2.54 11.156 11.156 0 0 0 .559-13.089zM3.41 7.932A3.41 3.41 0 0 0 0 11.342a3.41 3.41 0 0 0 3.41 3.409 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zm2.027 7.866a4.908 4.908 0 0 1-2.915.358 11.1 11.1 0 0 0 7.991 6.698 11.234 11.234 0 0 0 2.422.249 4.879 4.879 0 0 1-.999-2.85 8.484 8.484 0 0 1-.836-.136 8.304 8.304 0 0 1-5.663-4.32zm11.405.928a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41z" fill="#e95420"/>
+  </svg>
+      <text x="375" y="15" fill="#cbd5e1" font-size="12" font-weight="600">Ubuntu 24.04 LTS (1 GB RAM • 2 vCPUs • 25 GB gp3)</text>
+
+      <rect x="730" y="-3" width="135" height="26" rx="13" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+      <text x="797" y="14" fill="#34d399" font-size="10" font-weight="700" text-anchor="middle">STATIC ELASTIC IP</text>
+    </g>
+
+    <!-- Public Traffic Entrance & Nginx Box -->
+    <g transform="translate(24, 55)">
+      <!-- Nginx Card (Frontline Gateway) -->
+      <rect x="0" y="0" width="862" height="110" rx="14" fill="#0d1929" stroke="#009639" stroke-width="1.5" filter="url(#glowGreen)"/>
+      <circle cx="65" cy="55" r="36" fill="#064e3b" stroke="#009639" stroke-width="2"/>
+      
+  <svg x="39" y="29" width="52" height="52" viewBox="0 0 24 24">
+    <path d="M12 0L1.605 6v12L12 24l10.395-6V6L12 0zm6 16.59c0 .705-.646 1.29-1.529 1.29-.631 0-1.351-.255-1.801-.81l-6-7.141v6.66c0 .721-.57 1.29-1.274 1.29H7.32c-.721 0-1.29-.6-1.29-1.29V7.41c0-.705.63-1.29 1.5-1.29.646 0 1.38.255 1.83.81l5.97 7.141V7.41c0-.721.6-1.29 1.29-1.29h.075c.72 0 1.29.6 1.29 1.29v9.18H18z" fill="#009639"/>
+  </svg>
+
+      <text x="120" y="45" fill="#f8fafc" font-size="18" font-weight="800">Nginx Reverse Proxy &amp; Web Server</text>
+      <text x="120" y="68" fill="#4ade80" font-size="12" font-weight="600">Port :80 • Gzip Compression • Client Asset Cache • SPA HTML5 Fallback</text>
+
+      <g transform="translate(640, 32)">
+        <rect x="0" y="0" width="200" height="46" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2"/>
+        <text x="100" y="20" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle">Reverse Proxy Target:</text>
+        <text x="100" y="36" fill="#ffffff" font-size="11" font-family="monospace" text-anchor="middle">/api/*  &amp;  /uploads/*</text>
       </g>
     </g>
 
-    <!-- EC2 Boundary Box -->
-    <g transform="translate(20, 52)">
-      <rect x="0" y="0" width="660" height="475" rx="14" fill="#0b1329" stroke="#38bdf8" stroke-width="1.2"/>
-      
-      <!-- EC2 Host Header with Ubuntu Icon -->
-      <g transform="translate(18, 14)">
-        <g transform="translate(0, 0) scale(0.8)">
-          <path d="M17.61.455a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zM12.92.8C8.923.777 5.137 2.941 3.148 6.451a4.5 4.5 0 0 1 .26-.007 4.92 4.92 0 0 1 2.585.737A8.316 8.316 0 0 1 12.688 3.6 4.944 4.944 0 0 1 13.723.834 11.008 11.008 0 0 0 12.92.8zm9.226 4.994a4.915 4.915 0 0 1-1.918 2.246 8.36 8.36 0 0 1-.273 8.303 4.89 4.89 0 0 1 1.632 2.54 11.156 11.156 0 0 0 .559-13.089zM3.41 7.932A3.41 3.41 0 0 0 0 11.342a3.41 3.41 0 0 0 3.41 3.409 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zm2.027 7.866a4.908 4.908 0 0 1-2.915.358 11.1 11.1 0 0 0 7.991 6.698 11.234 11.234 0 0 0 2.422.249 4.879 4.879 0 0 1-.999-2.85 8.484 8.484 0 0 1-.836-.136 8.304 8.304 0 0 1-5.663-4.32zm11.405.928a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41z" fill="#e95420"/>
-        </g>
-        <text x="24" y="15" fill="#f8fafc" font-size="12" font-weight="700">EC2 Instance (Ubuntu 24.04 LTS)</text>
+    <!-- Downward Route Arrows from Nginx to App Containers -->
+    <path d="M 230 165 L 230 200" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrCyan)"/>
+    <path d="M 455 165 L 455 200" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrCyan)"/>
 
-        <rect x="420" y="2" width="200" height="18" rx="4" fill="#1e293b"/>
-        <text x="520" y="14" fill="#38bdf8" font-size="9" font-weight="600" text-anchor="middle">t2.micro | 1 GB RAM + 2 GB Swap</text>
-      </g>
+    <!-- ================= INNER DOCKER NETWORK: APP CONTAINERS ================= -->
+    <g transform="translate(24, 205)">
+      <rect x="0" y="0" width="862" height="215" rx="14" fill="#0f172a" stroke="#2563eb" stroke-width="1.2"/>
+      <text x="20" y="24" fill="#60a5fa" font-size="11" font-weight="800" letter-spacing="1">APPLICATION STACK (Docker Bridge: taskflow-network)</text>
 
-      <!-- K3s Cluster Box -->
-      <g transform="translate(16, 42)">
-        <rect x="0" y="0" width="628" height="415" rx="12" fill="url(#k8sGrad)" stroke="#326ce5" stroke-width="1.4"/>
+      <!-- Container: React Frontend -->
+      <g transform="translate(20, 40)">
+        <rect x="0" y="0" width="255" height="155" rx="12" fill="#131e36" stroke="#38bdf8" stroke-width="1.2"/>
+        <circle cx="55" cy="50" r="30" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1.5"/>
         
-        <!-- K3s Header with Helm Icon -->
-        <g transform="translate(16, 12)">
-          <g transform="translate(0, 0) scale(0.9)">
-            <path d="M10.204 14.35l.007.01-.999 2.413a5.171 5.171 0 0 1-2.075-2.597l2.578-.437.004.005a.44.44 0 0 1 .484.606zm-.833-2.129a.44.44 0 0 0 .173-.756l.002-.011L7.585 9.7a5.143 5.143 0 0 0-.73 3.255l2.514-.725.002-.009zm1.145-1.98a.44.44 0 0 0 .699-.337l.01-.005.15-2.62a5.144 5.144 0 0 0-3.01 1.442l2.147 1.523.004-.002zm.76 2.75l.723.349.722-.347.18-.78-.5-.623h-.804l-.5.623.179.779zm1.5-3.095a.44.44 0 0 0 .7.336l.008.003 2.134-1.513a5.188 5.188 0 0 0-2.992-1.442l.148 2.615.002.001zm10.876 5.97l-5.773 7.181a1.6 1.6 0 0 1-1.248.594l-9.261.003a1.6 1.6 0 0 1-1.247-.596l-5.776-7.18a1.583 1.583 0 0 1-.307-1.34L2.1 5.573c.108-.47.425-.864.863-1.073L11.305.513a1.606 1.606 0 0 1 1.385 0l8.345 3.985c.438.209.755.604.863 1.073l2.062 8.955c.108.47-.005.963-.308 1.34zm-3.289-2.057c-.042-.01-.103-.026-.145-.034-.174-.033-.315-.025-.479-.038-.35-.037-.638-.067-.895-.148-.105-.04-.18-.165-.216-.216l-.201-.059a6.45 6.45 0 0 0-.105-2.332 6.465 6.465 0 0 0-.936-2.163c.052-.047.15-.133.177-.159.008-.09.001-.183.094-.282.197-.185.444-.338.743-.522.142-.084.273-.137.415-.242.032-.024.076-.062.11-.089.24-.191.295-.52.123-.736-.172-.216-.506-.236-.745-.045-.034.027-.08.062-.111.088-.134.116-.217.23-.33.35-.246.25-.45.458-.673.609-.097.056-.239.037-.303.033l-.19.135a6.545 6.545 0 0 0-4.146-2.003l-.012-.223c-.065-.062-.143-.115-.163-.25-.022-.268.015-.557.057-.905.023-.163.061-.298.068-.475.001-.04-.001-.099-.001-.142 0-.306-.224-.555-.5-.555-.275 0-.499.249-.499.555l.001.014c0 .041-.002.092 0 .128.006.177.044.312.067.475.042.348.078.637.056.906a.545.545 0 0 1-.162.258l-.012.211a6.424 6.424 0 0 0-4.166 2.003 8.373 8.373 0 0 1-.18-.128c-.09.012-.18.04-.297-.029-.223-.15-.427-.358-.673-.608-.113-.12-.195-.234-.329-.349-.03-.026-.077-.062-.111-.088a.594.594 0 0 0-.348-.132.481.481 0 0 0-.398.176c-.172.216-.117.546.123.737l.007.005.104.083c.142.105.272.159.414.242.299.185.546.338.743.522.076.082.09.226.1.288l.16.143a6.462 6.462 0 0 0-1.02 4.506l-.208.06c-.055.072-.133.184-.215.217-.257.081-.546.11-.895.147-.164.014-.305.006-.48.039-.037.007-.09.02-.133.03l-.004.002-.007.002c-.295.071-.484.342-.423.608.061.267.349.429.645.365l.007-.001.01-.003.129-.029c.17-.046.294-.113.448-.172.33-.118.604-.217.87-.256.112-.009.23.069.288.101l.217-.037a6.5 6.5 0 0 0 2.88 3.596l-.09.218c.033.084.069.199.044.282-.097.252-.263.517-.452.813-.091.136-.185.242-.268.399-.02.037-.045.095-.064.134-.128.275-.034.591.213.71.248.12.556-.007.69-.282v-.002c.02-.039.046-.09.062-.127.07-.162.094-.301.144-.458.132-.332.205-.68.387-.897.05-.06.13-.082.215-.105l.113-.205a6.453 6.453 0 0 0 4.609.012l.106.192c.086.028.18.042.256.155.136.232.229.507.342.84.05.156.074.295.145.457.016.037.043.09.062.129.133.276.442.402.69.282.247-.118.341-.435.213-.71-.02-.039-.045-.096-.065-.134-.083-.156-.177-.261-.268-.398-.19-.296-.346-.541-.443-.793-.04-.13.007-.21.038-.294-.018-.022-.059-.144-.083-.202a6.499 6.499 0 0 0 2.88-3.622c.064.01.176.03.213.038.075-.05.144-.114.28-.104.266.039.54.138.87.256.154.06.277.128.448.173.036.01.088.019.13.028l.009.003.007.001c.297.064.584-.098.645-.365.06-.266-.128-.537-.423-.608zM16.4 9.701l-1.95 1.746v.005a.44.44 0 0 0 .173.757l.003.01 2.526.728a5.199 5.199 0 0 0-.108-1.674A5.208 5.208 0 0 0 16.4 9.7zm-4.013 5.325a.437.437 0 0 0-.404-.232.44.44 0 0 0-.372.233h-.002l-1.268 2.292a5.164 5.164 0 0 0 3.326.003l-1.27-2.296h-.01zm1.888-1.293a.44.44 0 0 0-.27.036.44.44 0 0 0-.214.572l-.003.004 1.01 2.438a5.15 5.15 0 0 0 2.081-2.615l-2.6-.44-.004.005z" fill="#326ce5"/>
-          </g>
-          <text x="28" y="16" fill="#60a5fa" font-size="13" font-weight="800">K3s Kubernetes Cluster</text>
-          
-          <rect x="440" y="2" width="140" height="18" rx="4" fill="#1e293b"/>
-          <text x="510" y="14" fill="#a5b4fc" font-size="9" font-weight="600" text-anchor="middle">Namespace: taskflow</text>
-        </g>
+  <svg x="32" y="27" width="46" height="46" viewBox="0 0 24 24">
+    <path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z" fill="#61dafb"/>
+  </svg>
+        <text x="100" y="44" fill="#f8fafc" font-size="15" font-weight="700">Frontend</text>
+        <text x="100" y="62" fill="#38bdf8" font-size="11" font-weight="600">React 19 SPA</text>
+        <rect x="20" y="95" width="215" height="24" rx="6" fill="#0f172a"/>
+        <text x="127" y="111" fill="#cbd5e1" font-size="10" font-weight="600" text-anchor="middle">Vite Production Bundle</text>
+        <rect x="20" y="123" width="215" height="22" rx="6" fill="#064e3b"/>
+        <text x="127" y="138" fill="#34d399" font-size="10" font-weight="700" text-anchor="middle">Served via Nginx Alpine</text>
+      </g>
 
-        <!-- Traefik Ingress Card -->
-        <g transform="translate(16, 42)">
-          <rect x="0" y="0" width="596" height="60" rx="10" fill="#0f172a" stroke="#24a1c1" stroke-width="1.2"/>
-          
-          <!-- Traefik Icon -->
-          <circle cx="36" cy="30" r="18" fill="#083344" stroke="#24a1c1" stroke-width="1"/>
-          <g transform="translate(24, 18) scale(1)">
-            <path d="M12 1.19c1.088 0 2.056.768 2.056 1.714 0 .947-.921 1.715-2.056 1.715-.13 0-.3-.022-.509-.064a.685.685 0 0 0-.475.076l-7.37 4.195a.344.344 0 0 0 .001.597l7.99 4.49c.208.116.461.116.669 0l8.034-4.468a.343.343 0 0 0 .003-.598l-2.507-1.424a.683.683 0 0 0-.67-.003l-2.647 1.468a.234.234 0 0 0-.119.18l-.001.025c0 .946-.921 1.714-2.056 1.714s-2.056-.768-2.056-1.714c0-.947.921-1.715 2.056-1.715.042 0 .09.002.145.007l.087.008.096.013a.685.685 0 0 0 .425-.08l3.913-2.173c.3-.166.662-.171.965-.017l.04.023 5.465 3.104c.686.39.693 1.368.03 1.773l-.037.021-3.656 2.033a.343.343 0 0 0 .007.604l3.62 1.906c.72.378.736 1.402.03 1.804l-10.995 6.272a1.03 1.03 0 0 1-1.019 0L.526 16.43a1.03 1.03 0 0 1 .034-1.806l3.66-1.911a.343.343 0 0 0 .01-.603L.524 10.029a1.03 1.03 0 0 1-.041-1.77l.036-.021L9.618 3.06a.688.688 0 0 0 .308-.369l.011-.036c.32-.952 1.046-1.466 2.063-1.466Zm5.076 12.63-4.492 2.586-.041.022c-.306.158-.671.152-.973-.018l-4.478-2.527a.682.682 0 0 0-.65-.01L3.86 15.224a.343.343 0 0 0-.012.602l7.887 4.515c.21.12.467.121.677 0l7.956-4.547a.343.343 0 0 0-.01-.602l-2.623-1.384a.683.683 0 0 0-.659.012z" fill="#24a1c1"/>
-          </g>
+      <!-- Container: Node.js API -->
+      <g transform="translate(300, 40)">
+        <rect x="0" y="0" width="260" height="155" rx="12" fill="#131e36" stroke="#22c55e" stroke-width="1.5" filter="url(#glowGreen)"/>
+        <circle cx="55" cy="50" r="30" fill="#064e3b" stroke="#22c55e" stroke-width="1.5"/>
+        
+  <svg x="32" y="27" width="46" height="46" viewBox="0 0 24 24">
+    <path d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z" fill="#22c55e"/>
+  </svg>
+        <text x="100" y="44" fill="#f8fafc" font-size="15" font-weight="700">Backend API</text>
+        <text x="100" y="62" fill="#4ade80" font-size="11" font-weight="600">Node 22 Express (:5000)</text>
+        <rect x="20" y="95" width="220" height="24" rx="6" fill="#0f172a"/>
+        <text x="130" y="111" fill="#38bdf8" font-size="10" font-family="monospace" text-anchor="middle">/metrics (prom-client)</text>
+        <rect x="20" y="123" width="220" height="22" rx="6" fill="#1e293b"/>
+        <text x="130" y="138" fill="#34d399" font-size="10" font-family="monospace" text-anchor="middle">/api/health (Probes)</text>
+      </g>
 
-          <text x="66" y="26" fill="#38bdf8" font-size="13" font-weight="700">Traefik Ingress Controller</text>
-          <text x="66" y="42" fill="#94a3b8" font-size="10">External HTTP/S Traffic (:80 / :443)</text>
+      <!-- Arrow from API to DB -->
+      <path d="M 565 115 L 590 115" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrGreen)"/>
 
-          <!-- Routing Pills -->
-          <g transform="translate(320, 18)">
-            <rect x="0" y="0" width="125" height="24" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="0.8"/>
-            <text x="62" y="16" fill="#67e8f9" font-size="10" font-weight="700" text-anchor="middle">Path / $	o$ Frontend</text>
-
-            <rect x="135" y="0" width="130" height="24" rx="6" fill="#1e293b" stroke="#a78bfa" stroke-width="0.8"/>
-            <text x="200" y="16" fill="#c084fc" font-size="10" font-weight="700" text-anchor="middle">Path /api $	o$ Backend</text>
-          </g>
-        </g>
-
-        <!-- Dynamic Ingress Routes (Lines) -->
-        <path d="M 160 102 L 160 135" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)"/>
-        <path d="M 460 102 L 460 135" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowPurple)"/>
-
-        <!-- Frontend Pod (React) -->
-        <g transform="translate(16, 140)">
-          <rect x="0" y="0" width="288" height="185" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.2"/>
-          
-          <circle cx="40" cy="38" r="22" fill="#082f49" stroke="#0ea5e9" stroke-width="1" filter="url(#iconGlowBlue)"/>
-          <g transform="translate(28, 26) scale(1)">
-            <path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z" fill="#61dafb"/>
-          </g>
-
-          <text x="74" y="34" fill="#f8fafc" font-size="13" font-weight="700">Frontend Pod</text>
-          <text x="74" y="50" fill="#38bdf8" font-size="11" font-weight="600">React 19 + Vite 8</text>
-
-          <!-- Badges & Details -->
-          <g transform="translate(16, 74)">
-            <rect x="0" y="0" width="256" height="24" rx="6" fill="#1e293b"/>
-            <text x="128" y="16" fill="#cbd5e1" font-size="9" font-weight="600" text-anchor="middle">Node.js Static &amp; Reverse Proxy</text>
-
-            <rect x="0" y="30" width="256" height="24" rx="6" fill="#1e293b"/>
-            <text x="128" y="46" fill="#34d399" font-size="9" font-weight="600" text-anchor="middle">Resources: 64Mi req / 128Mi limit</text>
-
-            <rect x="0" y="60" width="256" height="24" rx="6" fill="#1e293b"/>
-            <text x="128" y="76" fill="#facc15" font-size="9" font-weight="600" text-anchor="middle">TCP Socket Probes (:80)</text>
-
-            <rect x="0" y="90" width="256" height="14" rx="4" fill="#0369a1"/>
-            <text x="128" y="101" fill="#ffffff" font-size="8" font-weight="700" text-anchor="middle">Service: frontend-service:80</text>
-          </g>
-        </g>
-
-        <!-- Backend Pod (Node / Express) -->
-        <g transform="translate(324, 140)">
-          <rect x="0" y="0" width="288" height="185" rx="12" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.2"/>
-          
-          <circle cx="40" cy="38" r="22" fill="#14532d" stroke="#22c55e" stroke-width="1" filter="url(#iconGlowGreen)"/>
-          <g transform="translate(28, 26) scale(1)">
-            <path d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z" fill="#5fa04e"/>
-          </g>
-
-          <text x="74" y="34" fill="#f8fafc" font-size="13" font-weight="700">Backend API Pod</text>
-          <text x="74" y="50" fill="#4ade80" font-size="11" font-weight="600">Node.js + Express REST</text>
-
-          <!-- Badges & Details -->
-          <g transform="translate(16, 74)">
-            <rect x="0" y="0" width="256" height="24" rx="6" fill="#1e293b"/>
-            <text x="128" y="16" fill="#cbd5e1" font-size="9" font-weight="600" text-anchor="middle">ConfigMap + Secret (JWT / URI)</text>
-
-            <rect x="0" y="30" width="256" height="24" rx="6" fill="#1e293b"/>
-            <text x="128" y="46" fill="#34d399" font-size="9" font-weight="600" text-anchor="middle">Resources: 128Mi req / 256Mi limit</text>
-
-            <rect x="0" y="60" width="256" height="24" rx="6" fill="#1e293b"/>
-            <text x="128" y="76" fill="#facc15" font-size="9" font-weight="600" text-anchor="middle">HTTP GET /api/health Probes</text>
-
-            <rect x="0" y="90" width="256" height="14" rx="4" fill="#5b21b6"/>
-            <text x="128" y="101" fill="#ffffff" font-size="8" font-weight="700" text-anchor="middle">Service: api-service:5000</text>
-          </g>
-        </g>
-
-        <!-- Persistent Storage & Strategy Row -->
-        <g transform="translate(16, 335)">
-          <rect x="0" y="0" width="288" height="65" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
-          
-          <circle cx="28" cy="32" r="16" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
-          <text x="28" y="37" fill="#34d399" font-size="14" text-anchor="middle">💾</text>
-
-          <text x="56" y="26" fill="#34d399" font-size="11" font-weight="700">PVC: uploads-pvc (1 GB)</text>
-          <text x="56" y="42" fill="#94a3b8" font-size="9">Local-path storage mounted at /app/uploads</text>
-          <text x="56" y="55" fill="#6ee7b7" font-size="9" font-weight="600">Persistent user avatars storage</text>
-        </g>
-
-        <g transform="translate(324, 335)">
-          <rect x="0" y="0" width="288" height="65" rx="8" fill="#0f172a" stroke="#6366f1" stroke-width="1"/>
-          
-          <circle cx="28" cy="32" r="16" fill="#312e81" stroke="#6366f1" stroke-width="1"/>
-          <text x="28" y="37" fill="#818cf8" font-size="14" text-anchor="middle">🔄</text>
-
-          <text x="56" y="26" fill="#a5b4fc" font-size="11" font-weight="700">Zero-Downtime Deployment</text>
-          <text x="56" y="42" fill="#94a3b8" font-size="9">RollingUpdate (maxSurge: 1, maxUnavailable: 0)</text>
-          <text x="56" y="55" fill="#818cf8" font-size="9" font-weight="600">Old pods terminate only when new pass probes</text>
-        </g>
+      <!-- Container: MongoDB -->
+      <g transform="translate(595, 40)">
+        <rect x="0" y="0" width="245" height="155" rx="12" fill="#131e36" stroke="#10b981" stroke-width="1.2"/>
+        <circle cx="55" cy="50" r="30" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+        
+  <svg x="32" y="27" width="46" height="46" viewBox="0 0 24 24">
+    <path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.103-1.662-.197-2.218zm-5.336 8.195s0-8.291.275-8.29c.213 0 .49 10.695.49 10.695-.381-.045-.765-1.76-.765-2.405z" fill="#10b981"/>
+  </svg>
+        <text x="100" y="44" fill="#f8fafc" font-size="15" font-weight="700">MongoDB</text>
+        <text x="100" y="62" fill="#34d399" font-size="11" font-weight="600">Engine 6.0 (:27017)</text>
+        <rect x="20" y="95" width="205" height="24" rx="6" fill="#0f172a"/>
+        <text x="122" y="111" fill="#cbd5e1" font-size="10" font-family="monospace" text-anchor="middle">Volume: mongo-data</text>
+        <rect x="20" y="123" width="205" height="22" rx="6" fill="#1e293b"/>
+        <text x="122" y="138" fill="#a7f3d0" font-size="10" font-weight="600" text-anchor="middle">Isolated Internal DB</text>
       </g>
     </g>
 
-    <!-- Arrow from API Pod to MongoDB Atlas -->
-    <path d="M 460 528 L 460 545" stroke="#34d399" stroke-width="2" marker-end="url(#arrowGreen)"/>
+    <!-- ================= OBSERVABILITY CLUSTER (BOTTOM) ================= -->
+    <g transform="translate(24, 440)">
+      <rect x="0" y="0" width="862" height="230" rx="14" fill="#0f172a" stroke="#e11d48" stroke-width="1.2"/>
+      <text x="20" y="24" fill="#fb7185" font-size="11" font-weight="800" letter-spacing="1">OBSERVABILITY SUITE (Prometheus • Grafana • Exporters)</text>
 
-    <!-- MongoDB Atlas External Database Card -->
-    <g transform="translate(20, 548)">
-      <rect x="0" y="0" width="660" height="95" rx="14" fill="#0f172a" stroke="#10b981" stroke-width="1.5" filter="url(#cardShadow)"/>
-      
-      <!-- MongoDB Leaf Icon -->
-      <circle cx="50" cy="48" r="28" fill="#064e3b" stroke="#10b981" stroke-width="1.2" filter="url(#iconGlowGreen)"/>
-      <g transform="translate(36, 34) scale(1.15)">
-        <path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.103-1.662-.197-2.218zm-5.336 8.195s0-8.291.275-8.29c.213 0 .49 10.695.49 10.695-.381-.045-.765-1.76-.765-2.405z" fill="#00ed64"/>
+      <!-- Node Exporter -->
+      <g transform="translate(20, 42)">
+        <rect x="0" y="0" width="190" height="165" rx="12" fill="#141c2e" stroke="#3b82f6" stroke-width="1.2"/>
+        <circle cx="45" cy="45" r="26" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5"/>
+        
+  <svg x="26" y="26" width="38" height="38" viewBox="0 0 24 24">
+    <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 01-.004-.021l-.004-.024a1.807 1.807 0 01-.15.706.953.953 0 01-.213.335.71.71 0 00-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 00-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 00-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 00-.205.334 1.18 1.18 0 00-.09.4v.019c.002.089.008.179.02.267-.193-.067-.438-.135-.607-.202a1.635 1.635 0 01-.018-.2v-.02a1.772 1.772 0 01.15-.768c.082-.22.232-.406.43-.533a.985.985 0 01.594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2.012-.09.013-.18.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.613.613 0 00-.166-.267.248.248 0 00-.183-.064h-.021c-.071.006-.13.04-.186.132a.552.552 0 00-.12.27.944.944 0 00-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268.01.009.02.018.034.024-.07.057-.117.07-.176.136a.304.304 0 01-.131.068 2.62 2.62 0 01-.275-.402 1.772 1.772 0 01-.155-.667 1.759 1.759 0 01.08-.668 1.43 1.43 0 01.283-.535c.128-.133.26-.2.418-.2zm1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.571.571 0 01.016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.139 1.139 0 01-.448-.067 3.566 3.566 0 01-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71-.07-.268-.005-.47.193-.6.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.043c-.06-.003-.12 0-.18 0h-.016c.151-.467-.182-.825-1.065-1.224-.915-.4-1.646-.336-1.77.465-.008.043-.013.066-.018.135-.068.023-.139.053-.209.064-.43.268-.662.669-.793 1.187-.13.533-.17 1.156-.205 1.869v.003c-.02.334-.17.838-.319 1.35-1.5 1.072-3.58 1.538-5.348.334a2.645 2.645 0 00-.402-.533 1.45 1.45 0 00-.275-.333c.182 0 .338-.03.465-.067a.615.615 0 00.314-.334c.108-.267 0-.697-.345-1.163-.345-.467-.931-.995-1.788-1.521-.63-.4-.986-.87-1.15-1.396-.165-.534-.143-1.085-.015-1.645.245-1.07.873-2.11 1.274-2.763.107-.065.037.135-.408.974-.396.751-1.14 2.497-.122 3.854a8.123 8.123 0 01.647-2.876c.564-1.278 1.743-3.504 1.836-5.268.048.036.217.135.289.202.218.133.38.333.59.465.21.201.477.335.876.335.039.003.075.006.11.006.412 0 .73-.134.997-.268.29-.134.52-.334.74-.4h.005c.467-.135.835-.402 1.044-.7zm2.185 8.958c.037.6.343 1.245.882 1.377.588.134 1.434-.333 1.791-.765l.211-.01c.315-.007.577.01.847.268l.003.003c.208.199.305.53.391.876.085.4.154.78.409 1.066.486.527.645.906.636 1.14l.003-.007v.018l-.003-.012c-.015.262-.185.396-.498.595-.63.401-1.746.712-2.457 1.57-.618.737-1.37 1.14-2.036 1.191-.664.053-1.237-.2-1.574-.898l-.005-.003c-.21-.4-.12-1.025.056-1.69.176-.668.428-1.344.463-1.897.037-.714.076-1.335.195-1.814.12-.465.308-.797.641-.984l.045-.022zm-10.814.049h.01c.053 0 .105.005.157.014.376.055.706.333 1.023.752l.91 1.664.003.003c.243.533.754 1.064 1.189 1.637.434.598.77 1.131.729 1.57v.006c-.057.744-.48 1.148-1.125 1.294-.645.135-1.52.002-2.395-.464-.968-.536-2.118-.469-2.857-.602-.369-.066-.61-.2-.723-.4-.11-.2-.113-.602.123-1.23v-.004l.002-.003c.117-.334.03-.752-.027-1.118-.055-.401-.083-.71.043-.94.16-.334.396-.4.69-.533.294-.135.64-.202.915-.47h.002v-.002c.256-.268.445-.601.668-.838.19-.201.38-.336.663-.336zm7.159-9.074c-.435.201-.945.535-1.488.535-.542 0-.97-.267-1.28-.466-.154-.134-.28-.268-.373-.335-.164-.134-.144-.333-.074-.333.109.016.129.134.199.2.096.066.215.2.36.333.292.2.68.467 1.167.467.485 0 1.053-.267 1.398-.466.195-.135.445-.334.648-.467.156-.136.149-.267.279-.267.128.016.034.134-.147.332a8.097 8.097 0 01-.69.468zm-1.082-1.583V5.64c-.006-.02.013-.042.029-.05.074-.043.18-.027.26.004.063 0 .16.067.15.135-.006.049-.085.066-.135.066-.055 0-.092-.043-.141-.068-.052-.018-.146-.008-.163-.065zm-.551 0c-.02.058-.113.049-.166.066-.047.025-.086.068-.14.068-.05 0-.13-.02-.136-.068-.01-.066.088-.133.15-.133.08-.031.184-.047.259-.005.019.009.036.03.03.05v.02h.003z" fill="#60a5fa"/>
+  </svg>
+        <text x="82" y="42" fill="#f8fafc" font-size="12" font-weight="700">Node Exporter</text>
+        <text x="82" y="58" fill="#38bdf8" font-size="10" font-weight="600">Port :9100</text>
+        <rect x="15" y="85" width="160" height="30" rx="6" fill="#0f172a"/>
+        <text x="95" y="104" fill="#cbd5e1" font-size="10" font-weight="600" text-anchor="middle">Host CPU &amp; RAM</text>
+        <rect x="15" y="122" width="160" height="30" rx="6" fill="#0f172a"/>
+        <text x="95" y="141" fill="#a5b4fc" font-size="10" font-weight="600" text-anchor="middle">Disk &amp; Network I/O</text>
       </g>
 
-      <text x="96" y="40" fill="#f8fafc" font-size="16" font-weight="800">MongoDB Atlas</text>
-      <text x="96" y="58" fill="#34d399" font-size="12" font-weight="600">M0 Free Tier Managed Cluster</text>
-      <text x="96" y="74" fill="#94a3b8" font-size="10">Cloud Database with Automated Failover &amp; TLS Encryption</text>
+      <!-- cAdvisor -->
+      <g transform="translate(225, 42)">
+        <rect x="0" y="0" width="190" height="165" rx="12" fill="#141c2e" stroke="#8b5cf6" stroke-width="1.2"/>
+        <circle cx="45" cy="45" r="26" fill="#2e1065" stroke="#8b5cf6" stroke-width="1.5"/>
+        
+  <svg x="26" y="26" width="38" height="38" viewBox="0 0 24 24">
+    <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z" fill="#c084fc"/>
+  </svg>
+        <text x="82" y="42" fill="#f8fafc" font-size="13" font-weight="700">cAdvisor</text>
+        <text x="82" y="58" fill="#c084fc" font-size="10" font-weight="600">Port :8080</text>
+        <rect x="15" y="85" width="160" height="30" rx="6" fill="#0f172a"/>
+        <text x="95" y="104" fill="#cbd5e1" font-size="10" font-weight="600" text-anchor="middle">Container CPU &amp; RAM</text>
+        <rect x="15" y="122" width="160" height="30" rx="6" fill="#0f172a"/>
+        <text x="95" y="141" fill="#d8b4fe" font-size="10" font-weight="600" text-anchor="middle">Docker Socket Read</text>
+      </g>
 
-      <!-- Atlas Badges -->
-      <g transform="translate(420, 24)">
-        <rect x="0" y="0" width="220" height="22" rx="4" fill="#064e3b"/>
-        <text x="110" y="15" fill="#a7f3d0" font-size="9" font-weight="700" text-anchor="middle">TLS Enforced (mongodb+srv://)</text>
+      <!-- Arrow to Prometheus -->
+      <path d="M 420 120 L 440 120" stroke="#e6522c" stroke-width="2.5" marker-end="url(#arrOrange)"/>
 
-        <rect x="0" y="28" width="105" height="20" rx="4" fill="#1e293b"/>
-        <text x="52" y="42" fill="#6ee7b7" font-size="9" text-anchor="middle">512 MB Storage</text>
+      <!-- Prometheus -->
+      <g transform="translate(445, 42)">
+        <rect x="0" y="0" width="200" height="165" rx="12" fill="#141c2e" stroke="#e6522c" stroke-width="1.5" filter="url(#glowOrange)"/>
+        <circle cx="45" cy="45" r="26" fill="#431407" stroke="#e6522c" stroke-width="1.5"/>
+        
+  <svg x="26" y="26" width="38" height="38" viewBox="0 0 24 24">
+    <path d="M12 0C5.373 0 0 5.372 0 12c0 6.627 5.373 12 12 12s12-5.373 12-12c0-6.628-5.373-12-12-12zm0 22.46c-1.885 0-3.414-1.26-3.414-2.814h6.828c0 1.553-1.528 2.813-3.414 2.813zm5.64-3.745H6.36v-2.046h11.28v2.046zm-.04-3.098H6.391c-.037-.043-.075-.086-.111-.13-1.155-1.401-1.427-2.133-1.69-2.879-.005-.025 1.4.287 2.395.511 0 0 .513.119 1.262.255-.72-.843-1.147-1.915-1.147-3.01 0-2.406 1.845-4.508 1.18-6.207.648.053 1.34 1.367 1.387 3.422.689-.951.977-2.69.977-3.755 0-1.103.727-2.385 1.454-2.429-.648 1.069.168 1.984.894 4.256.272.854.237 2.29.447 3.201.07-1.892.395-4.652 1.595-5.605-.529 1.2.079 2.702.494 3.424.671 1.164 1.078 2.047 1.078 3.716a4.642 4.642 0 01-1.11 2.996c.792-.149 1.34-.283 1.34-.283l2.573-.502s-.374 1.538-1.81 3.019z" fill="#e6522c"/>
+  </svg>
+        <text x="82" y="42" fill="#f8fafc" font-size="13" font-weight="700">Prometheus</text>
+        <text x="82" y="58" fill="#ea580c" font-size="10" font-weight="600">TSDB (:9090)</text>
+        <rect x="15" y="85" width="170" height="30" rx="6" fill="#0f172a"/>
+        <text x="100" y="104" fill="#fed7aa" font-size="10" font-weight="600" text-anchor="middle">15s Scrape • 7d TSDB</text>
+        <rect x="15" y="122" width="170" height="30" rx="6" fill="#450a0a" stroke="#dc2626" stroke-width="1"/>
+        <text x="100" y="141" fill="#fca5a5" font-size="10" font-weight="700" text-anchor="middle">Active Alert Rules</text>
+      </g>
 
-        <rect x="115" y="28" width="105" height="20" rx="4" fill="#1e293b"/>
-        <text x="167" y="42" fill="#6ee7b7" font-size="9" text-anchor="middle">3-Node Replica</text>
+      <!-- Arrow to Grafana -->
+      <path d="M 650 120 L 670 120" stroke="#f46800" stroke-width="2.5" marker-end="url(#arrOrange)"/>
+
+      <!-- Grafana -->
+      <g transform="translate(675, 42)">
+        <rect x="0" y="0" width="168" height="165" rx="12" fill="#141c2e" stroke="#f46800" stroke-width="1.5"/>
+        <circle cx="45" cy="45" r="26" fill="#431407" stroke="#f46800" stroke-width="1.5"/>
+        
+  <svg x="26" y="26" width="38" height="38" viewBox="0 0 24 24">
+    <path d="M23.02 10.59a8.578 8.578 0 0 0-.862-3.034 8.911 8.911 0 0 0-1.789-2.445c.337-1.342-.413-2.505-.413-2.505-1.292-.08-2.113.4-2.416.62-.052-.02-.102-.044-.154-.064-.22-.089-.446-.172-.677-.247-.231-.073-.47-.14-.711-.197a9.867 9.867 0 0 0-.875-.161C14.557.753 12.94 0 12.94 0c-1.804 1.145-2.147 2.744-2.147 2.744l-.018.093c-.098.029-.2.057-.298.088-.138.042-.275.094-.413.143-.138.055-.275.107-.41.166a8.869 8.869 0 0 0-1.557.87l-.063-.029c-2.497-.955-4.716.195-4.716.195-.203 2.658.996 4.33 1.235 4.636a11.608 11.608 0 0 0-.607 2.635C1.636 12.677.953 15.014.953 15.014c1.926 2.214 4.171 2.351 4.171 2.351.003-.002.006-.002.006-.005.285.509.615.994.986 1.446.156.19.32.371.488.548-.704 2.009.099 3.68.099 3.68 2.144.08 3.553-.937 3.849-1.173a9.784 9.784 0 0 0 3.164.501h.08l.055-.003.107-.002.103-.005.003.002c1.01 1.44 2.788 1.646 2.788 1.646 1.264-1.332 1.337-2.653 1.337-2.94v-.058c0-.02-.003-.039-.003-.06.265-.187.52-.387.758-.6a7.875 7.875 0 0 0 1.415-1.7c1.43.083 2.437-.885 2.437-.885-.236-1.49-1.085-2.216-1.264-2.354l-.018-.013-.016-.013a.217.217 0 0 1-.031-.02c.008-.092.016-.18.02-.27.011-.162.016-.323.016-.48v-.253l-.005-.098-.008-.135a1.891 1.891 0 0 0-.01-.13c-.003-.042-.008-.083-.013-.125l-.016-.124-.018-.122a6.215 6.215 0 0 0-2.032-3.73 6.015 6.015 0 0 0-3.222-1.46 6.292 6.292 0 0 0-.85-.048l-.107.002h-.063l-.044.003-.104.008a4.777 4.777 0 0 0-3.335 1.695c-.332.4-.592.84-.768 1.297a4.594 4.594 0 0 0-.312 1.817l.003.091c.005.055.007.11.013.164a3.615 3.615 0 0 0 .698 1.82 3.53 3.53 0 0 0 1.827 1.282c.33.098.66.14.971.137.039 0 .078 0 .114-.002l.063-.003c.02 0 .041-.003.062-.003.034-.002.065-.007.099-.01.007 0 .018-.003.028-.003l.031-.005.06-.008a1.18 1.18 0 0 0 .112-.02c.036-.008.072-.013.109-.024a2.634 2.634 0 0 0 .914-.415c.028-.02.056-.041.085-.065a.248.248 0 0 0 .039-.35.244.244 0 0 0-.309-.06l-.078.042c-.09.044-.184.083-.283.116a2.476 2.476 0 0 1-.475.096c-.028.003-.054.006-.083.006l-.083.002c-.026 0-.054 0-.08-.002l-.102-.006h-.012l-.024.006c-.016-.003-.031-.003-.044-.006-.031-.002-.06-.007-.091-.01a2.59 2.59 0 0 1-.724-.213 2.557 2.557 0 0 1-.667-.438 2.52 2.52 0 0 1-.805-1.475 2.306 2.306 0 0 1-.029-.444l.006-.122v-.023l.002-.031c.003-.021.003-.04.005-.06a3.163 3.163 0 0 1 1.352-2.29 3.12 3.12 0 0 1 .937-.43 2.946 2.946 0 0 1 .776-.101h.06l.07.002.045.003h.026l.07.005a4.041 4.041 0 0 1 1.635.49 3.94 3.94 0 0 1 1.602 1.662 3.77 3.77 0 0 1 .397 1.414l.005.076.003.075c.002.026.002.05.002.075 0 .024.003.052 0 .07v.065l-.002.073-.008.174a6.195 6.195 0 0 1-.08.639 5.1 5.1 0 0 1-.267.927 5.31 5.31 0 0 1-.624 1.13 5.052 5.052 0 0 1-3.237 2.014 4.82 4.82 0 0 1-.649.066l-.039.003h-.287a6.607 6.607 0 0 1-1.716-.265 6.776 6.776 0 0 1-3.4-2.274 6.75 6.75 0 0 1-.746-1.15 6.616 6.616 0 0 1-.714-2.596l-.005-.083-.002-.02v-.056l-.003-.073v-.096l-.003-.104v-.07l.003-.163c.008-.22.026-.45.054-.678a8.707 8.707 0 0 1 .28-1.355c.128-.444.286-.872.473-1.277a7.04 7.04 0 0 1 1.456-2.1 5.925 5.925 0 0 1 .953-.763c.169-.111.343-.213.524-.306.089-.05.182-.091.273-.135.047-.02.093-.042.138-.062a7.177 7.177 0 0 1 .714-.267l.145-.045c.049-.015.098-.026.148-.041.098-.029.197-.052.296-.076.049-.013.1-.02.15-.033l.15-.032.151-.028.076-.013.075-.01.153-.024c.057-.01.114-.013.171-.023l.169-.021c.036-.003.073-.008.106-.01l.073-.008.036-.003.042-.002c.057-.003.114-.008.171-.01l.086-.006h.023l.037-.003.145-.007a7.999 7.999 0 0 1 1.708.125 7.917 7.917 0 0 1 2.048.68 8.253 8.253 0 0 1 1.672 1.09l.09.077.089.078c.06.052.114.107.171.159.057.052.112.106.166.16.052.055.107.107.159.164a8.671 8.671 0 0 1 1.41 1.978c.012.026.028.052.04.078l.04.078.075.156c.023.051.05.1.07.153l.065.15a8.848 8.848 0 0 1 .45 1.34.19.19 0 0 0 .201.142.186.186 0 0 0 .172-.184c.01-.246.002-.532-.024-.856z" fill="#f46800"/>
+  </svg>
+        <text x="80" y="42" fill="#f8fafc" font-size="14" font-weight="700">Grafana</text>
+        <text x="80" y="58" fill="#fb923c" font-size="10" font-weight="600">Port :3000</text>
+        <rect x="12" y="85" width="144" height="30" rx="6" fill="#0f172a"/>
+        <text x="84" y="104" fill="#fed7aa" font-size="10" font-weight="600" text-anchor="middle">Auto Dashboards</text>
+        <rect x="12" y="122" width="144" height="30" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+        <text x="84" y="141" fill="#34d399" font-size="10" font-weight="700" text-anchor="middle">SSH Tunnel Only</text>
       </g>
     </g>
   </g>
-
-  <!-- ==================== CROSS-ZONE CONNECTORS ==================== -->
-  <!-- GitHub Actions -> EC2 SSH Deploy -->
-  <path d="M 241 310 C 390 310, 420 200, 560 200" fill="none" stroke="#6366f1" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrowPurple)"/>
-  <rect x="365" y="240" width="115" height="20" rx="4" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8"/>
-  <text x="422" y="253" fill="#c7d2fe" font-size="9" font-weight="700" text-anchor="middle">SSH Rolling Deploy</text>
-
-  <!-- GHCR -> K3s Image Pull -->
-  <path d="M 241 480 C 400 480, 440 370, 560 370" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrowCyan)"/>
-  <rect x="375" y="420" width="95" height="20" rx="4" fill="#0c4a6e" stroke="#0284c7" stroke-width="0.8"/>
-  <text x="422" y="433" fill="#bae6fd" font-size="9" font-weight="700" text-anchor="middle">Pull Images</text>
-
-  <!-- Terraform -> AWS Provision -->
-  <path d="M 515 160 L 540 160" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowPurple)"/>
-
-  <!-- Ansible -> EC2 Configure -->
-  <path d="M 515 440 L 540 440" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowOrange)"/>
-
 </svg>
